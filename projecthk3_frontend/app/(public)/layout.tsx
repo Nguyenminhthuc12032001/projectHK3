@@ -1,6 +1,7 @@
 import "../globals.css";
 import  Header from "../component/Header"
 import  Footer from "../component/Footer"
+import  PublicNavbar from "../component/PublicNavbar"
 
 export default function PublicLayout({
   children,
@@ -11,8 +12,8 @@ export default function PublicLayout({
     <html lang="en">
       <body >
         <Header/> 
-        <main>{children}</main>    
-        
+        <PublicNavbar/>
+        <main>{children}</main>           
         <Footer/>
       </body>
     </html>
