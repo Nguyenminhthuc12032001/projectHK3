@@ -1,4 +1,5 @@
-
+"use client";
+import Link from "next/link";
 import {
   Avatar,
   Dropdown,
@@ -14,10 +15,10 @@ import {
 
 export default function PublicNavbar() {
   return (
-    <Navbar fluid rounded>
-      <NavbarBrand href="https://flowbite-react.com">
-        <img src="/favicon.svg" className="mr-3 h-6 sm:h-9" alt="Flowbite React Logo" />
-        <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Flowbite React</span>
+    <Navbar className="bg-blue-900 dark:bg-blue-900"  >
+      <NavbarBrand as ={Link} href="/">
+        <img src="/logo-1.png" className="mr-4 h-8 sm:h-12" alt="Flowbite React Logo" />
+        <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Medical Care</span>
       </NavbarBrand>
       <div className="flex md:order-2">
         <Dropdown
@@ -40,13 +41,13 @@ export default function PublicNavbar() {
         <NavbarToggle />
       </div>
       <NavbarCollapse>
-        <NavbarLink href="#" active>
+        <NavbarLink as={Link} href="#" active>
           Home
         </NavbarLink>
-        <NavbarLink href="#">About</NavbarLink>
-        <NavbarLink href="#">Services</NavbarLink>
-        <NavbarLink href="#">Pricing</NavbarLink>
-        <NavbarLink href="#">Contact</NavbarLink>
+        <NavbarLink as={Link} href="/about">About</NavbarLink>
+        <NavbarLink as={Link} href="/contact">Contact</NavbarLink>
+        <NavbarLink as={Link} href="/feedback">Feedback</NavbarLink>
+        <NavbarLink  as={Link} href="/login">Login/Register</NavbarLink>
       </NavbarCollapse>
     </Navbar>
   );

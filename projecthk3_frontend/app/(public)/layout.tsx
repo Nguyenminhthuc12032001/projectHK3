@@ -11,9 +11,11 @@ export default function PublicLayout({
   return (
     <html lang="en">
       <body >
-        <Header/> 
+        
         <PublicNavbar/>
-        <main>{children}</main>           
+        <main className="min-h-screen">
+          {children}
+          </main>           
         <Footer/>
       </body>
     </html>
