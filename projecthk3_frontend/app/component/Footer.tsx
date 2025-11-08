@@ -40,6 +40,7 @@ export default function Footer() {
       <div className="border-t border-blue-700 mt-8 pt-4 text-center text-sm text-blue-200">
         © 2025 Medicare Insurance. All rights reserved.
       </div>
+      <div> </div>
     </footer>
   );
 }
