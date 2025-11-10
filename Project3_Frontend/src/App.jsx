@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PublicLayout from "./layout/PublicLayout";
 import AdminLayout from "./layout/AdminLayout";
@@ -28,3 +29,15 @@ function App() {
 }
 
 export default App;
+=======
+import { BrowserRouter } from "react-router-dom";
+import AppRoutes from "./routes/AppRoutes";
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <AppRoutes />
+    </BrowserRouter>
+  );
+}
+>>>>>>> a36765052ec7b29b88675d49e1e4a831c701230f
