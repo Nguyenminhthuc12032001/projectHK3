@@ -2,22 +2,16 @@ import { Outlet, Link } from "react-router-dom";
 
 export default function PublicLayout() {
   return (
-    <div>
-      <header style={{ padding: "1rem", background: "#0077cc", color: "white" }}>
-        <h1>My Website</h1>
-        <nav>
-          <Link to="/" style={{ marginRight: "1rem", color: "white" }}>Home</Link>
-          <Link to="/login" style={{ color: "white" }}>Login</Link>
-        </nav>
-      </header>
-
-      <main style={{ padding: "2rem" }}>
+    <div className="min-h-screen  grid grid-cols-12 grid-rows-3">
+      <div className="row-span-1 col-span-12 bg-yellow-500">
+              navbar 
+            </div>
+      <main className="row-span-1 col-span-12 bg-blue-700">
         <Outlet />
       </main>
-
-      <footer style={{ padding: "1rem", background: "#eee", marginTop: "2rem" }}>
-        © 2025 My Website
-      </footer>
+      <div className="row-span-1 col-span-12 bg-green-700">
+              footer
+      </div>
     </div>
   );
 }

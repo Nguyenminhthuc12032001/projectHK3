@@ -12,10 +12,14 @@ import AdDashboard from "../pages/admin/AdDashboard";
 
 //Employee Pages
 import EmDashboard from "../pages/employee/EmDashboard";
+
+
 //Public Pages
 import Home from "../pages/public/Home";
 import Forbidden from "../pages/public/Forbidden";
 import Login from "../pages/public/Login";
+
+
 
 export default function AppRoutes() {
   return (
@@ -25,13 +29,13 @@ export default function AppRoutes() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/403" element={<Forbidden />} />
+
       </Route>
 
       {/* Employee Protected Routes */}
       <Route element={<ProtectedRoute roles={["employee"]} />}>
         <Route element={<EmployeeLayout />}>
-          <Route path="/employee" element={<EmDashboard />} />
-          
+          <Route path="/employee" element={<EmDashboard />} />      
         </Route>
       </Route>
 
