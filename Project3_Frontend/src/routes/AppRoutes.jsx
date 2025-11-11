@@ -18,7 +18,7 @@ import EmDashboard from "../pages/employee/EmDashboard";
 import Home from "../pages/public/Home";
 import Forbidden from "../pages/public/Forbidden";
 import Login from "../pages/public/Login";
-
+import AboutUs from "../pages/public/AboutUs"
 
 
 export default function AppRoutes() {
@@ -29,6 +29,7 @@ export default function AppRoutes() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/403" element={<Forbidden />} />
+        <Route path ="/about"element={<AboutUs/>}/>
 
       </Route>
 

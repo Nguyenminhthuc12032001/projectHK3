@@ -1,17 +1,19 @@
-/*import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link } from "react-router-dom";
+import Navbar from "../components/Navbar.jsx"
+import Footer from "../components/Footer.jsx"
+
+
 
 export default function PublicLayout() {
   return (
-    <div className="min-h-screen  grid grid-cols-12 grid-rows-3">
-      <div className="row-span-1 col-span-12 bg-yellow-500">
-              navbar 
-            </div>
-      <main className="row-span-1 col-span-12 bg-blue-700">
+    <div>
+      <Navbar></Navbar>
+      <main className="">
         <Outlet />
       </main>
-      <div className="row-span-1 col-span-12 bg-green-700">
-              footer
+      <div className="">
+        <Footer></Footer>
       </div>
     </div>
   );
-}*/
+}
