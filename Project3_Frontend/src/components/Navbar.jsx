@@ -1,27 +1,50 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
-export default function Header() {
+export default function Navbar() {
   return (
-    <header className="bg-blue-800 text-white shadow-md">
-      <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-        <Link to="/" className="text-2xl font-bold">🏥 InsuranceCo</Link>
+    <nav className="bg-blue-900 text-white shadow-md">
+      <div className="container mx-auto flex justify-between items-center px-6 py-4">
+        {/* Logo */}
+        <Link to="/" className="text-2xl font-bold">
+          Medicare
+        </Link>
 
-        <nav className="space-x-6">
-          <Link to="/" className="hover:text-yellow-300">Home</Link>
-          <Link to="/about" className="hover:text-yellow-300">About</Link>
-          <Link to="/policies" className="hover:text-yellow-300">Policies</Link>
-          <Link to="/claims" className="hover:text-yellow-300">Claims</Link>
-        </nav>
-
-        <div>
-          <Link
+        {/* Menu */}
+        <div className="space-x-6">
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              isActive ? "text-yellow-400 font-semibold" : "hover:text-yellow-300"
+            }
+          >
+            Home
+          </NavLink>
+          <NavLink
+            to="/about"
+            className={({ isActive }) =>
+              isActive ? "text-yellow-400 font-semibold" : "hover:text-yellow-300"
+            }
+          >
+            About
+          </NavLink>
+          <NavLink
+            to="/contact"
+            className={({ isActive }) =>
+              isActive ? "text-yellow-400 font-semibold" : "hover:text-yellow-300"
+            }
+          >
+            Contact
+          </NavLink>
+          <NavLink
             to="/login"
-            className="bg-yellow-400 text-blue-900 px-4 py-2 rounded-lg hover:bg-yellow-300"
+            className={({ isActive }) =>
+              isActive ? "text-yellow-400 font-semibold" : "hover:text-yellow-300"
+            }
           >
             Login
-          </Link>
+          </NavLink>
         </div>
       </div>
-    </header>
+    </nav>
   );
 }

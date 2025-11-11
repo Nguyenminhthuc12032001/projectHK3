@@ -1,4 +1,4 @@
-import { Outlet, Link } from "react-router-dom";
+/*import { Outlet, Link } from "react-router-dom";
 
 export default function PublicLayout() {
   return (
@@ -14,4 +14,4 @@ export default function PublicLayout() {
       </div>
     </div>
   );
-}
+}*/
