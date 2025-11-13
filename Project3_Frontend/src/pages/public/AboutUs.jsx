@@ -24,7 +24,7 @@ export default function AboutUs() {
         {/* Image Section */}
         <div className="flex justify-center">
           <img
-            src="/aboutus.jpg"
+            src="src/assets/img/logo.png"
             alt="Insurance Team"
             className="rounded-2xl shadow-lg w-full max-w-md"
           />

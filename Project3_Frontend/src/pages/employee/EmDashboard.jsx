@@ -1,41 +1,45 @@
-export default function Dashboard() {
-  const user = localStorage.getItem("role") || "Guest";
+import { Link, Outlet } from "react-router-dom";
 
+export default function EmployeeLayout() {
   return (
-    <div className="bg-white rounded-xl shadow-md p-6">
-      <h2 className="text-2xl font-bold text-gray-800 mb-4">
-        📊 Employee Dashboard
-      </h2>
-
-      <p className="text-gray-600 mb-6">
-        Welcome back, <span className="font-semibold text-blue-700">{user}</span>!
-      </p>
-
-      <div className="grid grid-cols-3 gap-4">
-        <div className="p-4 bg-blue-100 rounded-lg text-center">
-          <h3 className="text-xl font-semibold text-blue-700">12</h3>
-          <p className="text-gray-700">Total Employees</p>
-        </div>
-
-        <div className="p-4 bg-green-100 rounded-lg text-center">
-          <h3 className="text-xl font-semibold text-green-700">5</h3>
-          <p className="text-gray-700">Pending Tasks</p>
-        </div>
-
-        <div className="p-4 bg-yellow-100 rounded-lg text-center">
-          <h3 className="text-xl font-semibold text-yellow-700">3</h3>
-          <p className="text-gray-700">New Reports</p>
-        </div>
+    <div className="min-h-screen flex flex-col bg-gray-100">
+      {/* Logo trên cùng */}
+      <div className="flex justify-center py-4 bg-gray-50">
+        
       </div>
 
-      <div className="mt-8 text-gray-600">
-        <h3 className="text-lg font-semibold mb-2">Quick Tips:</h3>
-        <ul className="list-disc pl-6 space-y-1">
-          <li>Manage users and roles efficiently.</li>
-          <li>Monitor employee progress daily.</li>
-          <li>Check system logs for recent activity.</li>
-        </ul>
-      </div>
+      {/* Navbar riêng của employee */}
+      <header className="bg-blue-700 text-white py-4 shadow-md z-50">
+        <div className="container mx-auto flex justify-between items-center px-8">
+          <img
+          src="src/assets/img/logo.png"
+          alt="Logo"
+          className="h-20 w-28 object-cover rounded-md shadow"
+        />
+          <h1 className="text-2xl font-bold">Medical Care</h1>
+
+          <nav className="flex flex-1 justify-center gap-8">
+            <Link to="/employee" className="hover:text-gray-200">Home</Link>
+            <Link to="/employee/details" className="hover:text-gray-200">Employee Details</Link>
+            <Link to="/employee/search" className="hover:text-gray-200">Search</Link>
+            <Link to="/employee/orderforinsurance" className="hover:text-gray-200">Order For Insurance</Link>
+            <Link to="/login" className="hover:text-gray-200">Log Out</Link>
+          </nav>
+        </div>
+      </header>
+
+      {/* Phần nội dung hiển thị */}
+      <main className="flex-grow flex flex-col items-center justify-center text-center px-4">
+        {/* Nội dung mặc định khi chưa có route con */}
+        <div className="mb-8">
+          <h2 className="text-2xl font-semibold text-blue-900 mb-6">
+            Welcome to The Employee
+          </h2>
+        </div>
+
+        {/* Outlet để hiển thị các trang con */}
+        <Outlet />
+      </main>
     </div>
   );
 }
