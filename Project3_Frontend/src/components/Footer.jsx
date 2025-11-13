@@ -6,7 +6,7 @@ export default function Footer() {
         {/* 1️⃣ Thông tin công ty */}
         <div>
           <h2 className="text-2xl font-bold mb-4">Medicare Insurance</h2>
-          <p>123 Nguyen Trai, Thanh Xuan, Hanoi, Vietnam</p>
+          <p>123 Nguyen Trai,Tp.Ho Chi Minh, Vietnam</p>
           <p>Email: support@medicare.com</p>
           <p>Phone: +84 123 456 789</p>
         </div>

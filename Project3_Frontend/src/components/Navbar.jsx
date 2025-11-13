@@ -5,9 +5,13 @@ export default function Navbar() {
     <nav className="bg-blue-900 text-white shadow-md">
       <div className="container mx-auto flex justify-between items-center px-6 py-4">
         {/* Logo */}
-        <Link to="/" className="text-2xl font-bold">
-          Medicare
-        </Link>
+        <Link to="/" className="flex items-center">
+  <img
+    src="/src/assets/img/logo.png" 
+    className="h-10 w-auto mr-2"
+  />
+  <span className="text-2xl font-bold text-white">Medicare</span>
+</Link>
 
         {/* Menu */}
         <div className="space-x-6">
@@ -34,6 +38,14 @@ export default function Navbar() {
             }
           >
             Contact
+          </NavLink>
+          <NavLink
+            to="/feedback" 
+            className={({ isActive }) =>
+              isActive ? "text-yellow-400 font-semibold" : "hover:text-yellow-300"
+            }
+          >
+            Feedback
           </NavLink>
           <NavLink
             to="/login"
