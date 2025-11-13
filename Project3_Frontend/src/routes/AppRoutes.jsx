@@ -13,13 +13,11 @@ import AdDashboard from "../pages/admin/AdDashboard";
 //Employee Pages
 import EmDashboard from "../pages/employee/EmDashboard";
 
-
 //Public Pages
 import Home from "../pages/public/Home";
 import Forbidden from "../pages/public/Forbidden";
 import Login from "../pages/public/Login";
-import AboutUs from "../pages/public/AboutUs"
-
+import AboutUs from "../pages/public/AboutUs";
 
 export default function AppRoutes() {
   return (
@@ -29,23 +27,39 @@ export default function AppRoutes() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/403" element={<Forbidden />} />
-        <Route path ="/about"element={<AboutUs/>}/>
-
+        <Route path="/about" element={<AboutUs />} />
       </Route>
 
       {/* Employee Protected Routes */}
-      <Route element={<ProtectedRoute roles={["employee"]} />}>
-        <Route element={<EmployeeLayout />}>
-          <Route path="/employee" element={<EmDashboard />} />      
-        </Route>
-      </Route>
+      <Route
+        path="/employee"
+        element={
+          <ProtectedRoute
+            requiredRole="employee"
+            Component={() => (
+              <EmployeeLayout>
+                <EmDashboard />
+              </EmployeeLayout>
+            )}
+          />
+        }
+      />
 
       {/* Admin Protected Routes */}
-      <Route element={<ProtectedRoute roles={["admin"]} />}>
-        <Route element={<AdminLayout />}>
-          <Route path="/admin" element={<AdDashboard />} />
-        </Route>
-      </Route>
+
+      <Route
+        path="/admin"
+        element={
+          <ProtectedRoute
+            requiredRole="admin"
+            Component={() => (
+              <EmployeeLayout>
+                <AdDashboard />
+              </EmployeeLayout>
+            )}
+          />
+        }
+      />
     </Routes>
   );
 }

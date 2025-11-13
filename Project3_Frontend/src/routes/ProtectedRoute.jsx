@@ -1,22 +1,19 @@
-import { Navigate, Outlet } from "react-router-dom";
+import React from "react";
+import { Navigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
+export function ProtectedRoute({ Component, requiredRole = null }) {
+  const { isAuthenticated, hasRole } = useAuth();
 
-export default function ProtectedRoute({ roles }) {
-    //Phần này lấy token của
-    const token = 123456;
- // const token = localStorage.getItem("token");
-  const role = "access All role";
-
-  // Nếu chưa login
-  if (!token) {
+  if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
 
-  // Nếu có role nhưng không đúng quyền
-  if (roles && roles.includes(role)) {
-    return <Navigate to="/403" replace />;
+  if (requiredRole && !hasRole(requiredRole)) {
+    return <Navigate to="/forbidden" replace />;
   }
 
-  // Nếu hợp lệ → render component con (Outlet)
-  return <Outlet />;
+  return <Component />;
 }
+
+export default ProtectedRoute;
