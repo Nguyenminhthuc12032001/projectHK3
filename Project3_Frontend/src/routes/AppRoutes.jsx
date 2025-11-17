@@ -41,10 +41,10 @@ export default function AppRoutes() {
 
       {/* Employee Protected Routes */}
       <Route
-        path="/employee"
+        path="/user"
         element={
           <ProtectedRoute
-            requiredRole="employee"
+            requiredRole="user"
             Component={() => (
               <EmployeeLayout>
                 <EmDashboard />
@@ -65,9 +65,9 @@ export default function AppRoutes() {
           <ProtectedRoute
             requiredRole="admin"
             Component={() => (
-              <EmployeeLayout>
+              <AdminLayout>
                 <AdDashboard />
-              </EmployeeLayout>
+              </AdminLayout>
             )}
           />
         }
