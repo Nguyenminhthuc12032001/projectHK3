@@ -6,21 +6,20 @@ import AdminLayout from "../layouts/AdminLayout";
 import EmployeeLayout from "../layouts/EmployeeLayout";
 import PublicLayout from "../layouts/PublicLayout";
 
-// Pages
+// Admin Pages
 import AdDashboard from "../pages/admin/AdDashboard";
+
+// Employee Pages
 import EmDashboard from "../pages/employee/EmDashboard";
-
-//Public Pages
-
 import EmployeeDetails from "../pages/employee/EmployeeDetails";
 import Search from "../pages/employee/Search";
 import OrderForIssurence from "../pages/employee/OrderForIssurence";
 
+// Public Pages
 import Home from "../pages/public/Home";
 import Forbidden from "../pages/public/Forbidden";
 import Login from "../pages/public/Login";
 import AboutUs from "../pages/public/AboutUs";
-
 import ContactUs from "../pages/public/ContactUs";
 import Register from "../pages/public/Register";
 import Feedback from "../pages/public/Feedback";
@@ -48,24 +47,36 @@ export default function AppRoutes() {
           </ProtectedRoute>
         }
       >
-        <Route index element={<EmDashboard />} />
-        <Route path="details" element={<EmployeeDetails />} />
-        <Route path="search" element={<Search />} />
-        <Route path="order" element={<OrderForIssurence />} />
+       
       </Route>
+       <Route
+  path="/user"
+  element={
+    <ProtectedRoute requiredRole="User">
+      <EmployeeLayout />
+    </ProtectedRoute>
+  }
+>
+  <Route index element={<EmDashboard />} />
+  <Route path="details" element={<EmployeeDetails />} />
+  <Route path="search" element={<Search />} />
+  <Route path="order" element={<OrderForIssurence />} />
+</Route>
 
       {/* Admin Protected Routes */}
-
       <Route
         path="/admin"
         element={
           <ProtectedRoute requiredRole="Admin">
-            <EmployeeLayout />
+            <AdminLayout />
           </ProtectedRoute>
         }
       >
         <Route index element={<AdDashboard />} />
       </Route>
+
+      {/* Catch-all route (optional) */}
+      <Route path="*" element={<Forbidden />} />
     </Routes>
   );
 }
