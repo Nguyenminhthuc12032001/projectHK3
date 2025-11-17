@@ -9,6 +9,7 @@ export function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const { roles } = useAuth();
 
   const containerStyle = {
     maxWidth: "400px",
@@ -46,7 +47,8 @@ export function LoginPage() {
     try {
       const success = await login(email, password);
       if (success) {
-        navigate("/user");
+        if (roles[1] == "Admin") navigate("/admin");
+        else if (roles[1] == "User") navigate("/user");
       } else {
         setError("Invalid email or password");
       }

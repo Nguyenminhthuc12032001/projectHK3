@@ -173,7 +173,7 @@ export function AuthProvider({ children }) {
     logout,
     register,
     isAuthenticated: !!token,
-    hasRole: (role) => roles.includes(role),
+    hasRole: (role) => roles[1] == role,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
