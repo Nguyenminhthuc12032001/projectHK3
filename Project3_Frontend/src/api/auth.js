@@ -1,6 +1,6 @@
-import axios from 'axios';
+import axios from "axios";
 
-const API_URL = 'https://localhost:7107/api/auth';
+const API_URL = "https://localhost:7107/api/auth";
 
 export async function login(email, password) {
   try {
@@ -10,82 +10,91 @@ export async function login(email, password) {
     // Check if error response exists
     if (error.response?.data) {
       const errorData = error.response.data;
-      
+
       // Try camelCase first (from middleware)
       if (errorData.message) {
         throw new Error(errorData.message);
       }
-      
+
       // Try PascalCase (fallback)
       if (errorData.Message) {
         throw new Error(errorData.Message);
       }
     }
-    
+
     // Network error or other errors
     if (error.message) {
       throw new Error(error.message);
     }
-    
+
     // Final fallback
-    throw new Error('Invalid email or password');
+    throw new Error("Invalid email or password");
   }
 }
 
 export async function register(email, password, confirmPassword) {
   try {
-    const res = await axios.post(`${API_URL}/register`, { 
-      email, 
-      password, 
-      confirmPassword 
+    const res = await axios.post(`${API_URL}/register`, {
+      email,
+      password,
+      confirmPassword,
     });
     return res.data;
   } catch (error) {
     if (error.response?.data) {
       const errorData = error.response.data;
-      
+
       // Handle validation errors from GlobalExceptionMiddleware
       if (errorData.validationErrors) {
         const validationErrors = errorData.validationErrors;
-        const errorMessages = Object.values(validationErrors).flat().join(', ');
-        throw new Error(errorMessages || errorData.message || 'Validation failed');
+        const errorMessages = Object.values(validationErrors).flat().join(", ");
+        throw new Error(
+          errorMessages || errorData.message || "Validation failed"
+        );
       }
-      
+
       if (errorData.ValidationErrors) {
         const validationErrors = errorData.ValidationErrors;
-        const errorMessages = Object.values(validationErrors).flat().join(', ');
-        throw new Error(errorMessages || errorData.message || errorData.Message || 'Validation failed');
+        const errorMessages = Object.values(validationErrors).flat().join(", ");
+        throw new Error(
+          errorMessages ||
+            errorData.message ||
+            errorData.Message ||
+            "Validation failed"
+        );
       }
-      
+
       // Handle ASP.NET Core validation errors
       if (errorData.errors) {
-        const errorMessages = Object.values(errorData.errors).flat().join(', ');
-        throw new Error(errorMessages || errorData.title || 'Validation failed');
+        const errorMessages = Object.values(errorData.errors).flat().join(", ");
+        throw new Error(
+          errorMessages || errorData.title || "Validation failed"
+        );
       }
-      
+
       // Try camelCase message (from GlobalExceptionMiddleware)
       if (errorData.message) {
         throw new Error(errorData.message);
       }
-      
+
       // Try PascalCase (fallback)
       if (errorData.Message) {
         throw new Error(errorData.Message);
       }
-      
+
       // Use title if available (ASP.NET Core validation)
       if (errorData.title) {
         throw new Error(errorData.title);
       }
     }
-    
+
     // Network error or other errors
     if (error.message) {
       throw new Error(error.message);
     }
-    
+
     // Final fallback
-    throw new Error('Registration failed. Please try again.');
+    throw new Error("Registration failed. Please try again.");
   }
 }
 
@@ -94,7 +103,7 @@ export async function refreshAccessToken(refreshToken) {
     const res = await axios.post(`${API_URL}/refresh`, { refreshToken });
     return res.data;
   } catch (error) {
-    console.error('Token refresh error:', error);
+    console.error("Token refresh error:", error);
     return null;
   }
 }
@@ -106,13 +115,13 @@ export async function logout(refreshToken) {
       { refreshToken },
       {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       }
     );
     return true;
   } catch (error) {
-    console.error('Logout error:', error);
+    console.error("Logout error:", error);
     return false;
   }
 }
@@ -121,7 +130,7 @@ export async function logout(refreshToken) {
 export function setupAxiosInterceptors() {
   axios.interceptors.request.use(
     (config) => {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
@@ -138,22 +147,22 @@ export function setupAxiosInterceptors() {
 
       if (error.response?.status === 401 && !originalRequest._retry) {
         originalRequest._retry = true;
-        const refreshToken = localStorage.getItem('refreshToken');
+        const refreshToken = localStorage.getItem("refreshToken");
 
         if (refreshToken) {
           try {
             const newTokens = await refreshAccessToken(refreshToken);
             if (newTokens) {
-              localStorage.setItem('token', newTokens.accessToken);
-              localStorage.setItem('refreshToken', newTokens.refreshToken);
+              localStorage.setItem("token", newTokens.accessToken);
+              localStorage.setItem("refreshToken", newTokens.refreshToken);
               originalRequest.headers.Authorization = `Bearer ${newTokens.accessToken}`;
               return axios(originalRequest);
             }
           } catch (refreshError) {
             // Refresh failed, redirect to login
-            localStorage.removeItem('token');
-            localStorage.removeItem('refreshToken');
-            window.location.href = '/login';
+            localStorage.removeItem("token");
+            localStorage.removeItem("refreshToken");
+            window.location.href = "/login";
           }
         }
       }

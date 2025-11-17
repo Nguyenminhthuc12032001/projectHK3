@@ -1,6 +1,11 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { login as loginAPI, register as registerAPI, logout as logoutAPI, setupAxiosInterceptors } from '../api/auth';
-import { decodeToken, getTokenExpiresIn } from '../utils/tokenUtils';
+import {
+  login as loginAPI,
+  register as registerAPI,
+  logout as logoutAPI,
+  setupAxiosInterceptors,
+} from "../api/auth";
+import { decodeToken, getTokenExpiresIn } from "../utils/tokenUtils";
 
 const AuthContext = createContext();
 
@@ -11,8 +16,12 @@ export function useAuth() {
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [roles, setRoles] = useState([]);
-  const [token, setToken] = useState(() => localStorage.getItem('token') || null)
-  const [refreshToken, setRefreshToken] = useState(() => localStorage.getItem('refreshToken') || null)
+  const [token, setToken] = useState(
+    () => localStorage.getItem("token") || null
+  );
+  const [refreshToken, setRefreshToken] = useState(
+    () => localStorage.getItem("refreshToken") || null
+  );
   const [tokenExpiry, setTokenExpiry] = useState(null);
 
   // Setup axios interceptors on mount
@@ -30,9 +39,10 @@ export function AuthProvider({ children }) {
       // Extract roles from claims
       // JWT tokens may store roles in different formats
       let userRoles = [];
-      
+
       // Try ClaimTypes.Role (full claim type name from ASP.NET Identity)
-      const roleClaimType = 'http://schemas.microsoft.com/ws/2008/06/identity/claims/role';
+      const roleClaimType =
+        "http://schemas.microsoft.com/ws/2008/06/identity/claims/role";
       if (decoded?.[roleClaimType]) {
         const roleValue = decoded[roleClaimType];
         userRoles = Array.isArray(roleValue) ? roleValue : [roleValue];
@@ -50,13 +60,16 @@ export function AuthProvider({ children }) {
       // Check all keys for role-related claims (in case of multiple role claims)
       else {
         const allKeys = Object.keys(decoded || {});
-        const roleKeys = allKeys.filter(key => 
-          key.toLowerCase().includes('role') || 
-          key.includes('http://schemas.microsoft.com/ws/2008/06/identity/claims/role')
+        const roleKeys = allKeys.filter(
+          (key) =>
+            key.toLowerCase().includes("role") ||
+            key.includes(
+              "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+            )
         );
-        
+
         if (roleKeys.length > 0) {
-          roleKeys.forEach(key => {
+          roleKeys.forEach((key) => {
             const roleValue = decoded[key];
             if (roleValue) {
               if (Array.isArray(roleValue)) {
@@ -70,7 +83,7 @@ export function AuthProvider({ children }) {
           userRoles = [...new Set(userRoles)];
         }
       }
-      
+
       setRoles(userRoles);
     } else {
       setUser(null);
@@ -94,7 +107,7 @@ export function AuthProvider({ children }) {
     if (timeoutMs > 0) {
       const timer = setTimeout(() => {
         logout();
-        alert('Your session has expired. Please login again.');
+        alert("Your session has expired. Please login again.");
       }, timeoutMs);
 
       return () => clearTimeout(timer);
@@ -107,8 +120,8 @@ export function AuthProvider({ children }) {
       if (response && response.accessToken) {
         setToken(response.accessToken);
         setRefreshToken(response.refreshToken);
-        localStorage.setItem('token', response.accessToken);
-        localStorage.setItem('refreshToken', response.refreshToken);
+        localStorage.setItem("token", response.accessToken);
+        localStorage.setItem("refreshToken", response.refreshToken);
         return true;
       }
       return false;
@@ -124,8 +137,8 @@ export function AuthProvider({ children }) {
       if (response && response.accessToken) {
         setToken(response.accessToken);
         setRefreshToken(response.refreshToken);
-        localStorage.setItem('token', response.accessToken);
-        localStorage.setItem('refreshToken', response.refreshToken);
+        localStorage.setItem("token", response.accessToken);
+        localStorage.setItem("refreshToken", response.refreshToken);
         return true;
       }
       return false;
@@ -146,8 +159,8 @@ export function AuthProvider({ children }) {
     setUser(null);
     setRoles([]);
     setTokenExpiry(null);
-    localStorage.removeItem('token');
-    localStorage.removeItem('refreshToken');
+    localStorage.removeItem("token");
+    localStorage.removeItem("refreshToken");
   };
 
   const value = {
@@ -160,13 +173,8 @@ export function AuthProvider({ children }) {
     logout,
     register,
     isAuthenticated: !!token,
-    hasRole: (role) => roles.includes(role)
-  }
+    hasRole: (role) => roles.includes(role),
+  };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
-

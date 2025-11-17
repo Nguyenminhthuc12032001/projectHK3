@@ -46,7 +46,7 @@ export function LoginPage() {
     try {
       const success = await login(email, password);
       if (success) {
-        navigate("/profile");
+        navigate("/user");
       } else {
         setError("Invalid email or password");
       }
