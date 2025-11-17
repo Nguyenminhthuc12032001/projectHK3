@@ -43,35 +43,29 @@ export default function AppRoutes() {
       <Route
         path="/user"
         element={
-          <ProtectedRoute
-            requiredRole="user"
-            Component={() => (
-              <EmployeeLayout>
-                <EmDashboard />
-                <EmployeeDetails />
-                <Search />
-                <OrderForIssurence />
-              </EmployeeLayout>
-            )}
-          />
+          <ProtectedRoute requiredRole="User">
+            <EmployeeLayout />
+          </ProtectedRoute>
         }
-      />
+      >
+        <Route index element={<EmDashboard />} />
+        <Route path="details" element={<EmployeeDetails />} />
+        <Route path="search" element={<Search />} />
+        <Route path="order" element={<OrderForIssurence />} />
+      </Route>
 
       {/* Admin Protected Routes */}
 
       <Route
         path="/admin"
         element={
-          <ProtectedRoute
-            requiredRole="admin"
-            Component={() => (
-              <AdminLayout>
-                <AdDashboard />
-              </AdminLayout>
-            )}
-          />
+          <ProtectedRoute requiredRole="Admin">
+            <EmployeeLayout />
+          </ProtectedRoute>
         }
-      />
+      >
+        <Route index element={<AdDashboard />} />
+      </Route>
     </Routes>
   );
 }

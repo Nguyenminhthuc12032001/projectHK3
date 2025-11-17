@@ -1,9 +1,9 @@
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
-export function ProtectedRoute({ Component, requiredRole = null }) {
+export function ProtectedRoute({ children, requiredRole = null }) {
   const { isAuthenticated, hasRole } = useAuth();
-  isAuthenticated = true;
+
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
@@ -12,7 +12,7 @@ export function ProtectedRoute({ Component, requiredRole = null }) {
     return <Navigate to="/forbidden" replace />;
   }
 
-  return <Component />;
+  return children;
 }
 
 export default ProtectedRoute;
