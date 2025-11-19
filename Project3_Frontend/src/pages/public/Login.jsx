@@ -48,7 +48,7 @@ export function LoginPage() {
       const success = await login(email, password);
       if (success) {
         if (roles[1] == "Admin") navigate("/admin");
-        else if (roles[1] == "User") navigate("/user");
+        else if (roles[1] == "User") navigate("/employee");
       } else {
         setError("Invalid email or password");
       }
