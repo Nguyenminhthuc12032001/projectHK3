@@ -8,10 +8,10 @@ import PublicLayout from "../layouts/PublicLayout";
 
 // Admin Pages
 import AdDashboard from "../pages/admin/AdDashboard";
-import AddResource from"../pages/admin/AddResource";
-import EmployeeSuport from"../pages/admin/EmployeeSuport";
-import RequstStatus from"../pages/admin/RequestStatus";
-import SearchA from"../pages/admin/Search";
+import AddResource from "../pages/admin/AddResource";
+import EmployeeSuport from "../pages/admin/EmployeeSuport";
+import RequstStatus from "../pages/admin/RequestStatus";
+import SearchA from "../pages/admin/Search";
 
 // Employee Pages
 import EmDashboard from "../pages/employee/EmDashboard";
@@ -43,20 +43,20 @@ export default function AppRoutes() {
       </Route>
 
       {/* Employee Protected Routes */}
-     
-       <Route
-  path="/employee"
-  element={
-    <ProtectedRoute requiredRole="User">
-      <EmployeeLayout />
-    </ProtectedRoute>
-  }
->
-  <Route index element={<EmDashboard />} />
-  <Route path="details" element={<EmployeeDetails />} />
-  <Route path="search" element={<Search />} />
-  <Route path="orderforinsurance" element={<OrderForIssurence />} />
-</Route>
+
+      <Route
+        path="/employee"
+        element={
+          <ProtectedRoute requiredRole="User">
+            <EmployeeLayout />
+          </ProtectedRoute>
+        }
+      >
+        <Route index element={<EmDashboard />} />
+        <Route path="details" element={<EmployeeDetails />} />
+        <Route path="search" element={<Search />} />
+        <Route path="orderforinsurance" element={<OrderForIssurence />} />
+      </Route>
 
       {/* Admin Protected Routes */}
       <Route
@@ -68,12 +68,11 @@ export default function AppRoutes() {
         }
       >
         <Route index element={<AdDashboard />} />
-         <Route path="resource" element={<AddResource />} />
-  <Route path="search" element={<SearchA />} />
-  
-  <Route path="suport" element={<EmployeeSuport />} />
-  <Route path="status" element={<RequstStatus />} />
-        
+        <Route path="resource" element={<AddResource />} />
+        <Route path="search" element={<SearchA />} />
+
+        <Route path="suport" element={<EmployeeSuport />} />
+        <Route path="status" element={<RequstStatus />} />
       </Route>
 
       {/* Catch-all route (optional) */}

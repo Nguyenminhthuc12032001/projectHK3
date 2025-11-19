@@ -7,7 +7,6 @@ import { AuthProvider } from "../context/AuthContext.jsx";
 export default function PublicLayout() {
   return (
     <div>
-      <Navbar></Navbar>
       <NavbarPublic></NavbarPublic>
       <main className="">
         <Outlet />
