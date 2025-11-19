@@ -26,7 +26,7 @@ export default function EmployeeDetails() {
   return (
     <div className="max-w-2xl mx-auto bg-white shadow-lg p-8 rounded-lg">
       <h2 className="text-2xl font-semibold mb-6 text-center text-blue-700">
-        Employee Registration
+       Update Employee Details Form
       </h2>
 
       <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
