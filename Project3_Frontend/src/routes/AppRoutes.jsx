@@ -1,3 +1,4 @@
+
 import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
 
@@ -9,15 +10,15 @@ import PublicLayout from "../layouts/PublicLayout";
 // Admin Pages
 import AdDashboard from "../pages/admin/AdDashboard";
 import AddResource from "../pages/admin/AddResource";
-import EmployeeSuport from "../pages/admin/EmployeeSuport";
-import RequstStatus from "../pages/admin/RequestStatus";
+import EmployeeSupport from "../pages/admin/EmployeeSupport"; // Đổi tên file chuẩn
+import RequestStatus from "../pages/admin/RequestStatus";
 import SearchA from "../pages/admin/Search";
 
 // Employee Pages
 import EmDashboard from "../pages/employee/EmDashboard";
 import EmployeeDetails from "../pages/employee/EmployeeDetails";
 import Search from "../pages/employee/Search";
-import OrderForIssurence from "../pages/employee/OrderForIssurence";
+import OrderForInsurance from "../pages/employee/OrderForIssurence";
 
 // Public Pages
 import Home from "../pages/public/Home";
@@ -43,7 +44,6 @@ export default function AppRoutes() {
       </Route>
 
       {/* Employee Protected Routes */}
-
       <Route
         path="/employee"
         element={
@@ -55,7 +55,7 @@ export default function AppRoutes() {
         <Route index element={<EmDashboard />} />
         <Route path="details" element={<EmployeeDetails />} />
         <Route path="search" element={<Search />} />
-        <Route path="orderforinsurance" element={<OrderForIssurence />} />
+        <Route path="orderforinsurance" element={<OrderForInsurance />} />
       </Route>
 
       {/* Admin Protected Routes */}
@@ -67,15 +67,15 @@ export default function AppRoutes() {
           </ProtectedRoute>
         }
       >
-        <Route index element={<AdDashboard />} />
+        <Route index element={<AdDashboard />} />          
+        <Route path="dashboard" element={<AdDashboard />} />  
         <Route path="resource" element={<AddResource />} />
         <Route path="search" element={<SearchA />} />
-
-        <Route path="suport" element={<EmployeeSuport />} />
-        <Route path="status" element={<RequstStatus />} />
+        <Route path="support" element={<EmployeeSupport />} /> 
+        <Route path="status" element={<RequestStatus />} />
       </Route>
 
-      {/* Catch-all route (optional) */}
+      {/* Catch-all route */}
       <Route path="*" element={<Forbidden />} />
     </Routes>
   );

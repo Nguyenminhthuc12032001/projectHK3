@@ -1,105 +1,90 @@
-import React, { useState } from 'react';
-import ModernLayout from './AdDashboard'; // Sử dụng Layout hiện đại
+import React, { useState } from "react";
 
-// --- Component Form Con: Thêm Công ty Bảo hiểm ---
+// --- Add Company Form ---
 const AddCompanyForm = () => {
-    // ... (logic form và render fields tương tự AddInsuranceCompanyForm.jsx đã làm)
-    const handleSubmit = (e) => { e.preventDefault(); alert('Đã thêm Công ty Bảo hiểm!'); };
-    
-    // Helper function để render các trường form
-    const renderField = (label, id, type = 'text', defaultValue, isTextarea = false) => (
-        <div className={`flex ${isTextarea ? 'items-start' : 'items-center'} mb-4`}>
-            <label htmlFor={id} className="w-40 text-right pr-4 text-sm font-semibold text-gray-700">
-                {label}:
-            </label>
-            {isTextarea ? (
-                <textarea id={id} name={id} rows="3" defaultValue={defaultValue} className="flex-1 border border-gray-300 p-2 bg-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"></textarea>
-            ) : (
-                <input type={type} id={id} name={id} defaultValue={defaultValue} className="flex-1 border border-gray-300 p-2 bg-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"/>
-            )}
-        </div>
-    );
-    
-    return (
-        <form onSubmit={handleSubmit} className="space-y-2 w-full max-w-lg mx-auto bg-white p-6 rounded-lg shadow-inner">
-            <h3 className="text-xl font-semibold mb-4 text-blue-700">Add Insurence Company Details</h3>
-            {renderField('Company Name', 'companyName', 'text', 'Marga Darsi')}
-            {renderField('Address', 'address', 'text', 'Marga Darsi', true)}
-            {renderField('Phone no', 'phoneNo', 'text', '9846098097')}
-            {renderField('Company Url', 'companyUrl', 'text', 'www.MargaDarsi.com')}
-            <div className="flex justify-center pt-4 space-x-4">
-                <button type="submit" className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-200 shadow-md">Add</button>
-                <button type="button" className="px-6 py-2 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400 transition duration-200 shadow-md">Cancel</button>
-            </div>
-        </form>
-    );
+  const handleSubmit = (e) => { e.preventDefault(); alert("Insurance Company added successfully!"); };
+
+  const renderField = (label, id, isTextarea = false) => (
+    <div className={`flex ${isTextarea ? 'items-start' : 'items-center'} mb-4`}>
+      <label htmlFor={id} className="w-40 text-right pr-4 text-sm font-semibold text-gray-700">{label}:</label>
+      {isTextarea ? (
+        <textarea id={id} rows="3" className="flex-1 border p-2 rounded" />
+      ) : (
+        <input type="text" id={id} className="flex-1 border p-2 rounded" />
+      )}
+    </div>
+  );
+
+  return (
+    <form onSubmit={handleSubmit} className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-inner">
+      <h3 className="text-xl font-semibold mb-4 text-blue-700">Add Insurance Company</h3>
+      {renderField("Company Name", "companyName")}
+      {renderField("Address", "address", true)}
+      {renderField("Phone Number", "phoneNo")}
+      {renderField("Company URL", "companyUrl")}
+      <div className="flex justify-center space-x-4 pt-4">
+        <button type="submit" className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Add</button>
+        <button type="button" className="px-6 py-2 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400">Cancel</button>
+      </div>
+    </form>
+  );
 };
 
-// --- Component Form Con: Thêm Chính sách Bảo hiểm ---
+// --- Add Policy Form ---
 const AddPolicyForm = () => {
-    const handleSubmit = (e) => { e.preventDefault(); alert('Đã thêm Chính sách Bảo hiểm!'); };
-    // Danh sách mẫu
-    const companies = [{ value: 'Birla', label: 'Birla' }, { value: 'Marga Darsi', label: 'Marga Darsi' }];
-    
-    const renderField = (label, id, type = 'text', defaultValue, isSelect = false) => (
-        <div className={`flex items-center mb-4`}>
-            <label htmlFor={id} className="w-40 text-right pr-4 text-sm font-semibold text-gray-700">
-                {label}:
-            </label>
-            {isSelect ? (
-                <select id={id} name={id} defaultValue={defaultValue} className="flex-1 border border-gray-300 p-2 bg-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    {companies.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
-                </select>
-            ) : (
-                <input type={type} id={id} name={id} defaultValue={defaultValue} className="flex-1 border border-gray-300 p-2 bg-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"/>
-            )}
-        </div>
-    );
+  const handleSubmit = (e) => { e.preventDefault(); alert("Policy added successfully!"); };
+  const companies = ["Birla", "Marga Darsi"];
 
-    return (
-        <form onSubmit={handleSubmit} className="space-y-2 w-full max-w-lg mx-auto bg-white p-6 rounded-lg shadow-inner">
-            <h3 className="text-xl font-semibold mb-4 text-blue-700">Add Policy Details</h3>
-            {renderField('Policy Type Name', 'policyTypeName', 'text', 'abcpolicy')}
-            {renderField('Policy Desc', 'policyDesc', 'text', 'abc')}
-            {renderField('Policy Amount', 'policyAmount', 'text', '100000')}
-            {renderField('Policy EMI', 'policyEmi', 'text', '1000')}
-            {renderField('Company Id', 'companyId', 'select', 'Birla', true)}
-            {renderField('Medical ID', 'medicalId', 'text', '102145')}
+  const renderField = (label, id, isSelect = false) => (
+    <div className="flex items-center mb-4">
+      <label htmlFor={id} className="w-40 text-right pr-4 text-sm font-semibold text-gray-700">{label}:</label>
+      {isSelect ? (
+        <select id={id} className="flex-1 border p-2 rounded">
+          {companies.map(c => <option key={c}>{c}</option>)}
+        </select>
+      ) : (
+        <input type="text" id={id} className="flex-1 border p-2 rounded" />
+      )}
+    </div>
+  );
 
-            <div className="flex justify-center pt-4 space-x-4">
-                <button type="submit" className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-200 shadow-md">ADD</button>
-                <button type="button" className="px-6 py-2 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400 transition duration-200 shadow-md">Cancel</button>
-            </div>
-        </form>
-    );
+  return (
+    <form onSubmit={handleSubmit} className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-inner">
+      <h3 className="text-xl font-semibold mb-4 text-blue-700">Add Policy</h3>
+      {renderField("Policy Type Name", "policyTypeName")}
+      {renderField("Policy Description", "policyDesc")}
+      {renderField("Policy Amount", "policyAmount")}
+      {renderField("Policy EMI", "policyEmi")}
+      {renderField("Company Name", "companyId", true)}
+      {renderField("Medical ID", "medicalId")}
+      <div className="flex justify-center space-x-4 pt-4">
+        <button type="submit" className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Add</button>
+        <button type="button" className="px-6 py-2 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400">Cancel</button>
+      </div>
+    </form>
+  );
 };
 
-
-// === Component Chính: AddResource.jsx ===
+// --- AddResource Component ---
 export default function AddResource() {
-    const [activeTab, setActiveTab] = useState('company');
+  const [activeTab, setActiveTab] = useState("company");
 
-    const buttonClass = (tabName) => 
-        `px-6 py-2 font-semibold transition-colors duration-200 ${
-            activeTab === tabName 
-            ? 'bg-blue-700 text-white shadow-lg' 
-            : 'bg-gray-200 text-gray-700 hover:bg-gray-300 border border-gray-400'
-        }`;
+  const buttonClass = (tab) =>
+    `px-6 py-2 font-semibold transition-colors duration-200 ${
+      activeTab === tab ? "bg-blue-700 text-white shadow-lg" : "bg-gray-200 text-gray-700 hover:bg-gray-300 border border-gray-400"
+    }`;
 
-    return (
-        <ModernLayout title="Add Resource">
-            <div className="flex justify-center mb-8 space-x-4">
-                <button onClick={() => setActiveTab('company')} className={buttonClass('company')}>
-                    Add Insurance Company
-                </button>
-                <button onClick={() => setActiveTab('policy')} className={buttonClass('policy')}>
-                    Add Policy
-                </button>
-            </div>
+  return (
+    <div className="container mx-auto px-6 py-8">
+      <h2 className="text-2xl font-semibold text-blue-700 mb-6 text-center">Add Resource</h2>
 
-            {activeTab === 'company' && <AddCompanyForm />}
-            {activeTab === 'policy' && <AddPolicyForm />}
+      <div className="flex justify-center mb-8 space-x-4">
+        <button onClick={() => setActiveTab("company")} className={buttonClass("company")}>Add Company</button>
+        <button onClick={() => setActiveTab("policy")} className={buttonClass("policy")}>Add Policy</button>
+      </div>
 
-        </ModernLayout>
-    );
+      {activeTab === "company" && <AddCompanyForm />}
+      {activeTab === "policy" && <AddPolicyForm />}
+    </div>
+  );
 }

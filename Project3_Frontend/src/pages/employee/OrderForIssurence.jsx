@@ -3,13 +3,13 @@ import React, { useState } from "react";
 export default function OrderPolicyForm() {
   // 1. State với giá trị ban đầu trống hoặc giá trị mặc định có thể chỉnh sửa
   const [formData, setFormData] = useState({
-    policyId: "", // Đổi thành trống
-    policyName: "", // Đổi thành trống
-    policyAmount: "", // Đổi thành trống
-    emi: "", // Đổi thành trống
-    requestDate: "", // Đổi thành trống
-    companyName: "", // Đổi thành trống
-    companyId: "", // Đổi thành trống
+    policyId: "", 
+    policyName: "", 
+    policyAmount: "", 
+    emi: "", 
+    requestDate: "", 
+    companyName: "", 
+    companyId: "", 
   });
 
   // 2. Hàm xử lý thay đổi input
