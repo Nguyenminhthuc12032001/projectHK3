@@ -39,7 +39,7 @@ namespace ProjectHK3.Domain.Entities
 
         //Decimal (12,2)
         [Column(TypeName = "decimal(12,2)")]
-        public int Amount { get; set; }
+        public decimal Amount { get; set; }
 
 
         public MethodTransaction Method { get; set; }
