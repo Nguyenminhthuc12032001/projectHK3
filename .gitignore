@@ -1,0 +1,21 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.vcxproj.user
+*.csproj.user
+
+# Build output
+bin/
+obj/
+DesignTimeBuild/
+GeneratedFiles/
+CodeChunks.db*
+
+# AWS Rider, etc.
+.idea/
+.vscode/
+
+# ASP.NET temp
+*.db-wal
+*.db-shm
