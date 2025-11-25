@@ -1,54 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using ProjectHK3.Domain.Common;
-
-
 
 namespace ProjectHK3.Domain.Entities
 {
-
-    public enum MethodTransaction
+    [Table("TransactionLedgers")]
+    public class TransactionLedger : BaseEntity
     {
-        BankTransfer,
-        Ewallet,
-        Cash,
-        Refund
-    }
-
-    public enum StatusTransaction
-    {
-        Pending,
-        Completed,
-        Failed,
-        Reserved
-    }
-    internal class TransactionLedger : BaseEntity
-    {
-
-
         public int ApprovalId { get; set; }
 
+        [ForeignKey(nameof(ApprovalId))]
+        public PolicyApprovalDetail? Approval { get; set; }
 
-        public PolicyApprovalDetails Approval { get; set; }
-
-
-        //Decimal (12,2)
-        [Column(TypeName = "decimal(12,2)")]
+        [Column(TypeName = "DECIMAL(18,2)")]
         public decimal Amount { get; set; }
 
+        public MethodOfTransactionLedger Method { get; set; }
 
-        public MethodTransaction Method { get; set; }
+        public StatusOfTransactionLedger Status { get; set; }
+    }
 
-        public StatusTransaction Status { get; set; }
+    public enum MethodOfTransactionLedger
+    {
+        BankTransfer = 0,
+        Ewallet = 1,
+        Cash = 2,
+        Refund = 3
+    }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        public DateTime Timestamp { get; set; }
-
-
+    public enum StatusOfTransactionLedger
+    {
+        Pending = 0,
+        Completed = 1,
+        Failed = 2,
+        Reserved= 3,
     }
 }

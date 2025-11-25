@@ -1,6 +1,6 @@
 ﻿namespace ProjectHK3.Domain.Abstractions
 {
-    internal interface IUnitOfWork
+    public interface IUnitOfWork
     {
         Task<int> SaveChangesAsync();
     }

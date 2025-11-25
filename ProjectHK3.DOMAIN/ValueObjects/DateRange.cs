@@ -2,7 +2,7 @@
 
 namespace ProjectHK3.Domain.ValueObjects
 {
-    internal sealed class DateRange : ValueObject
+    public sealed class DateRange : ValueObject
     {
         public DateOnly Start { get; }
 

@@ -3,12 +3,12 @@ using System.Text.RegularExpressions;
 
 namespace ProjectHK3.Domain.ValueObjects
 {
-    internal class PhoneNumber : ValueObject
+    public class PhoneNumber : ValueObject
     {
         public string? Value { get; set; }
 
         private static readonly Regex E164Regex =
-            new Regex(@"")
+            new Regex(@"^\+[1-9]\d{1,14}$", RegexOptions.Compiled);
 
         public PhoneNumber(string? value)
         {
@@ -17,15 +17,20 @@ namespace ProjectHK3.Domain.ValueObjects
                 throw new ArgumentNullException(nameof(value), "Phone number is required");
             }
 
-            var cleaned = value.Replace(" ", "").Replace("-", "").Trim();
-            if (!Regex.IsMatch(cleaned, @"^(0|\+84)[0-9]{9}$"))
+            var cleaned = value
+                .Replace(" ", "")
+                .Replace("-", "")
+                .Replace("(", "")
+                .Trim();
+
+            if (!cleaned.StartsWith("+"))
             {
-                throw new ArgumentException("Invalid phone number format");
+                throw new ArgumentException("Phone number must include country code (+...)");
             }
 
-            if (cleaned.StartsWith("0"))
+            if (!E164Regex.IsMatch(cleaned))
             {
-                cleaned = "+84" + cleaned.Substring(1);
+                throw new ArgumentException("Invalid international phone number format (E.164).");
             }
 
             Value = cleaned;
@@ -34,5 +39,7 @@ namespace ProjectHK3.Domain.ValueObjects
         {
             yield return Value;
         }
+
+        public override string? ToString() => Value;
     }
 }

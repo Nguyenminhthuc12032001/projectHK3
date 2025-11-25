@@ -1,6 +1,6 @@
 ﻿namespace ProjectHK3.Domain.Common
 {
-    internal class BaseEntity : IEntity
+    public class BaseEntity : IEntity
     {
         public Guid Id { get; set; }
         public DateTime CreatedAt { get; set; }

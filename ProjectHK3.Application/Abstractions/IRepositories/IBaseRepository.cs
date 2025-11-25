@@ -1,6 +1,6 @@
-﻿namespace ProjectHK3.Domain.Abstractions
+﻿namespace ProjectHK3.Application.Abstractions.IRepositories
 {
-    internal interface IRepository<T> where T : class
+    public interface IBaseRepository<T> where T : class
     {
         Task<T?> AddOneAsync(T entity);
         Task<T?> GetOneAsync(Guid id);

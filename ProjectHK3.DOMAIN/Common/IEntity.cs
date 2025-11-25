@@ -1,6 +1,6 @@
 ﻿namespace ProjectHK3.Domain.Common
 {
-    internal interface IEntity
+    public interface IEntity
     {
         Guid Id { get; set; }
     }
