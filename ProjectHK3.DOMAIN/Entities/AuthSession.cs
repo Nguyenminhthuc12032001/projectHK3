@@ -4,14 +4,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProjectHK3.Domain.Entities
 {
+    [Table("AuthSession")]
     public class AuthSession : BaseEntity
     {
-        public int EmployeeId { get; set; }
+        public int? EmployeeId { get; set; }
 
         [ForeignKey(nameof(EmployeeId))]
         public EmpRegister? Employee { get; set; }
 
-        public int AdminId { get; set; }
+        public int? AdminId { get; set; }
 
         [ForeignKey(nameof(AdminId))]
         public AdminLogin? Admin { get; set; }

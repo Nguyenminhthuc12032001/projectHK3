@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ProjectHK3.Application.Abstractions
+﻿namespace ProjectHK3.Application.Abstractions
 {
-    internal interface ICurrentUserService
+    public interface ICurrentUserService
     {
+        public string? Email { get; }
     }
 }

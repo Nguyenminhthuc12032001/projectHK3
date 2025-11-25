@@ -1,6 +1,6 @@
 ﻿namespace ProjectHK3.Application.Abstractions.IServices
 {
-    internal interface IPolicyService
+    public interface IPolicyService
     {
     }
 }

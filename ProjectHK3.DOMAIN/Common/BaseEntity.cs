@@ -1,12 +1,15 @@
-﻿namespace ProjectHK3.Domain.Common
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ProjectHK3.Domain.Common
 {
     public class BaseEntity : IEntity
     {
-        public Guid Id { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime CreatedBy { get; set; }
-        public DateTime UpdatedAt { get; set; }
-        public DateTime UpdatedBy { get; set; }
-        public DateTime DeletedAt { get; set; }
+        [Key]
+        public int Id { get; set; }
+        public DateTimeOffset CreatedAt { get; set; }
+        public string? CreatedBy { get; set; }
+        public DateTimeOffset UpdatedAt { get; set; }
+        public string? UpdatedBy { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

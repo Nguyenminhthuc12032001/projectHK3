@@ -1,11 +1,12 @@
-﻿using ProjectHK3.Domain.Entities;
+﻿using ProjectHK3.Domain.Common;
+using ProjectHK3.Domain.Entities;
 using ProjectHK3.Domain.ValueObjects;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProjectHK3.Domain.Emtitys
 {
     [Table("EmpRegister")]
-    public class EmpRegister
+    public class EmpRegister : BaseEntity
     {
         [Column(TypeName ="VARCHAR(150)")]
         public string? FullName { get; set; }

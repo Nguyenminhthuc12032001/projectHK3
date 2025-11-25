@@ -1,6 +1,6 @@
 ﻿namespace ProjectHK3.Application.Abstractions.IServices
 {
-    internal interface INotificationService
+    public interface INotificationService
     {
     }
 }
