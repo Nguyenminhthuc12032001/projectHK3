@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjectHK3.Application.Abstractions.IRepositories
 {
-    internal interface IPolicyApprovalDetailRepo
+    public interface IPolicyApprovalDetailRepo
     {
     }
 }

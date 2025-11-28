@@ -2,7 +2,7 @@
 
 namespace ProjectHK3.Application.Abstractions.IRepositories
 {
-    internal interface IAuditTrailRepo : IBaseRepository<AuditTrail>
+    public interface IAuditTrailRepo : IBaseRepository<AuditTrail>
     {
     }
 }

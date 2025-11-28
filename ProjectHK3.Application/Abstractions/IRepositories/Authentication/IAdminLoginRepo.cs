@@ -4,5 +4,6 @@ namespace ProjectHK3.Application.Abstractions.IRepositories.Authentication
 {
     public interface IAdminLoginRepo : IBaseRepository<AdminLogin>
     {
+
     }
 }

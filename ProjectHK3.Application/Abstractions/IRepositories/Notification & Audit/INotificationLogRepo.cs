@@ -2,7 +2,7 @@
 
 namespace ProjectHK3.Application.Abstractions.IRepositories
 {
-    internal interface INotificationLogRepo : IBaseRepository<NotificationLog>
+    public interface INotificationLogRepo : IBaseRepository<NotificationLog>
     {
     }
 }
