@@ -1,6 +1,6 @@
-﻿namespace ProjectHK3.Application.DTOs
+﻿namespace ProjectHK3.Application.DTOs.Auth
 {
-    internal class AuthResponse
+    public class AuthResponse
     {
         public string? AccessToken { get; set; }
         public string? RefreshToken { get; set; }

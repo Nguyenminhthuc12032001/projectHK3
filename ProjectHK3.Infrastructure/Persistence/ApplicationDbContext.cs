@@ -27,6 +27,7 @@ namespace ProjectHK3.Infrastructure.Persistence
         public DbSet<Policy> Policy { get; set; }
         public DbSet<PolicyApprovalDetail> PolicyApprovalDetail { get; set; }
         public DbSet<PolicyRequestDetail> PolicyRequestDetail { get; set; }
+        public DbSet<PolicyRequestDocument> PolicyRequestDocument { get; set; }
         public DbSet<PolicyTotalDescription> PolicyTotalDescription { get; set; }
         public DbSet<ReportLog> ReportLog { get; set; }
         public DbSet<TransactionLedger> TransactionLedger { get; set; }
