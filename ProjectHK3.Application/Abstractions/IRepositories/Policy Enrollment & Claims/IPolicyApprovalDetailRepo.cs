@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ProjectHK3.Domain.Entities;
 
 namespace ProjectHK3.Application.Abstractions.IRepositories
 {
-    public interface IPolicyApprovalDetailRepo
+    internal interface IPolicyApprovalDetailRepo
     {
     }
 }

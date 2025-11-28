@@ -2,7 +2,7 @@
 
 namespace ProjectHK3.Application.Abstractions.IRepositories
 {
-    internal interface IPolicyTotalDescriptionRepo : IBaseRepository<PolicyTotalDescription>
+    public interface IPolicyTotalDescriptionRepo : IBaseRepository<PolicyTotalDescription>
     {
     }
 }

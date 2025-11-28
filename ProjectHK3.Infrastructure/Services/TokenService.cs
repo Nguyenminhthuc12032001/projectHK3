@@ -8,7 +8,7 @@ using System.Text;
 
 namespace ProjectHK3.Infrastructure.Services
 {
-    internal class TokenService(IConfiguration configuration) : ITokenService
+    public class TokenService(IConfiguration configuration) : ITokenService
     {
         readonly IConfiguration _configuration = configuration;
         public string GenerateRefreshToken()

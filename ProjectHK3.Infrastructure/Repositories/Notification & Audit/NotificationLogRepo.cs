@@ -28,7 +28,7 @@ namespace ProjectHK3.Infrastructure.Repositories.Notification___Audit
 
         public async Task<IEnumerable<NotificationLog>> GetAllAsync()
         {
-           return await _context.NotificationLog.ToListAsync();
+            return await _context.NotificationLog.ToListAsync();
         }
 
         public async Task<NotificationLog?> GetOneAsync(int id)
