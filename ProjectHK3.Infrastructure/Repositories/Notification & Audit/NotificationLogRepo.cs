@@ -16,10 +16,7 @@ namespace ProjectHK3.Infrastructure.Repositories.Notification___Audit
 
         public async Task<bool> DeleteOneAsync(int id)
         {
-            var match = await _context.NotificationLog.FindAsync(id);
-            if (match is null) return false;
-            _context.NotificationLog.Remove(match);
-            return true;
+            throw new NotSupportedException("Notification logs cannot be deleted.");
         }
 
         public async Task<IEnumerable<NotificationLog>> GetAllAsync()
@@ -34,10 +31,7 @@ namespace ProjectHK3.Infrastructure.Repositories.Notification___Audit
 
         public async Task<NotificationLog?> UpdateOneAsync(NotificationLog entity)
         {
-            var match = await _context.NotificationLog.FindAsync(entity.Id);
-            if (match is null) return null;
-            _context.NotificationLog.Update(entity);
-            return match;
+            throw new NotSupportedException("Notification logs cannot be updated.");
         }
     }
 }
