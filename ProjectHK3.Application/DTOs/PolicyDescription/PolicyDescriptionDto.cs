@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ProjectHK3.Application.DTOs.PolicyDescription
+﻿namespace ProjectHK3.Application.DTOs.PolicyDescription
 {
-    internal class PolicyDescriptionDto
+    public class PolicyDescriptionDto
     {
     }
 }
