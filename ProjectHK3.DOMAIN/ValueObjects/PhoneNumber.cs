@@ -1,14 +1,21 @@
 ﻿using ProjectHK3.Domain.ValueObjects.Base;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.RegularExpressions;
 
 namespace ProjectHK3.Domain.ValueObjects
 {
     public class PhoneNumber : ValueObject
     {
-        public string? Value { get; set; }
+        [Column(TypeName ="VARCHAR(50)")]
+        public string Value { get; }
 
         private static readonly Regex E164Regex =
             new Regex(@"^\+[1-9]\d{1,14}$", RegexOptions.Compiled);
+
+        private PhoneNumber()
+        {
+            Value = string.Empty;
+        }
 
         public PhoneNumber(string? value)
         {

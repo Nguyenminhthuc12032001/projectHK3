@@ -11,8 +11,15 @@ namespace ProjectHK3.Domain.Emtitys
         [Column(TypeName ="VARCHAR(150)")]
         public string? FullName { get; set; }
 
-        [Column(TypeName ="VARCHAR(150)")]
-        public string? Email { get; set; }
+        [NotMapped]
+        public EmailAddress? Email { get; set; }
+
+        [Column("Email", TypeName ="VARCHAR(150)")]
+        public string? EmailValue
+        {
+            get => Email?.Value;
+            set => Email = new EmailAddress(value);
+        }
 
         [NotMapped]
         public PhoneNumber? Phone { get; set; }

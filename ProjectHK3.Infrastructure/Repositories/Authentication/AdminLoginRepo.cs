@@ -25,7 +25,7 @@ namespace ProjectHK3.Infrastructure.Repositories.Authentication
 
         public async Task<IEnumerable<AdminLogin>> GetAllAsync()
         {
-            return await _context.AdminLogin.ToListAsync();
+            return await _context.AdminLogin.IgnoreQueryFilters().ToListAsync();
         }
 
         public async Task<AdminLogin?> GetOneAsync(int id)
@@ -33,11 +33,20 @@ namespace ProjectHK3.Infrastructure.Repositories.Authentication
             return await _context.AdminLogin.FindAsync(id);
         }
 
+        public async Task<bool> ReStoreById(int id)
+        {
+            var match = await _context.AdminLogin.IgnoreQueryFilters().FirstOrDefaultAsync(e => e.Id == id);
+            if (match == null) return false;
+            match.IsDeleted = false;
+            _context.AdminLogin.Update(match);
+            return true;
+        }
+
         public async Task<AdminLogin?> UpdateOneAsync(AdminLogin entity)
         {
             var match = await _context.AdminLogin.FindAsync(entity.Id);
             if (match == null) return null;
-            _context.AdminLogin.Update(entity);
+            _context.Entry(match).CurrentValues.SetValues(entity);
             return match;
         }
     }

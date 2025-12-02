@@ -4,7 +4,7 @@ namespace ProjectHK3.Application.Abstractions.IServices
 {
     public interface IPolicyDescriptionService
     {
-        Task<int> AddDescriptionAsync(int policyId, CreatePolicyDescriptionRequest request);
+        Task<int?> AddDescriptionAsync(int policyId, CreatePolicyDescriptionRequest request);
         Task<bool> UpdateDescriptionAsync(int descriptionId, UpdatePolicyDescriptionRequest request);
         Task<bool> SoftDeleteAsync(int descriptionId);
         Task<bool> RestoreAsync(int descriptionId);

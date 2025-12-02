@@ -1,4 +1,6 @@
-﻿namespace ProjectHK3.Application.Abstractions.IServices
+﻿using ProjectHK3.Application.DTOs.Report;
+
+namespace ProjectHK3.Application.Abstractions.IServices
 {
     public interface IReportService
     {

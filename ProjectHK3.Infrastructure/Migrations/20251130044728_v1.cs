@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ProjectHK3.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class v1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -67,6 +67,7 @@ namespace ProjectHK3.Infrastructure.Migrations
                     Type = table.Column<int>(type: "int", nullable: false),
                     Subject = table.Column<string>(type: "VARCHAR(255)", nullable: true),
                     Message = table.Column<string>(type: "TEXT", nullable: true),
+                    IsRead = table.Column<bool>(type: "bit", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false, defaultValueSql: "GETUTCDATE()"),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true, defaultValue: "System"),
@@ -235,8 +236,8 @@ namespace ProjectHK3.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    EmployeeId = table.Column<int>(type: "int", nullable: false),
-                    AdminId = table.Column<int>(type: "int", nullable: false),
+                    EmployeeId = table.Column<int>(type: "int", nullable: true),
+                    AdminId = table.Column<int>(type: "int", nullable: true),
                     Role = table.Column<int>(type: "int", nullable: false),
                     Token = table.Column<string>(type: "VARCHAR(255)", nullable: true),
                     RefreshToken = table.Column<string>(type: "VARCHAR(255)", nullable: true),
@@ -397,6 +398,41 @@ namespace ProjectHK3.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PolicyRequestDocuments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RequestId = table.Column<int>(type: "int", nullable: false),
+                    FileName = table.Column<string>(type: "VARCHAR(255)", nullable: true),
+                    FileURL = table.Column<string>(type: "VARCHAR(500)", nullable: true),
+                    DocumentType = table.Column<int>(type: "int", nullable: false),
+                    UploadedBy = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false, defaultValueSql: "GETUTCDATE()"),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true, defaultValue: "System"),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false, defaultValueSql: "GETUTCDATE()"),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true, defaultValue: "System"),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PolicyRequestDocuments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PolicyRequestDocuments_EmpRegister_UploadedBy",
+                        column: x => x.UploadedBy,
+                        principalTable: "EmpRegister",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_PolicyRequestDocuments_PolicyRequestDetails_RequestId",
+                        column: x => x.RequestId,
+                        principalTable: "PolicyRequestDetails",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TransactionLedgers",
                 columns: table => new
                 {
@@ -489,6 +525,16 @@ namespace ProjectHK3.Infrastructure.Migrations
                 column: "PolicyId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PolicyRequestDocuments_RequestId",
+                table: "PolicyRequestDocuments",
+                column: "RequestId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PolicyRequestDocuments_UploadedBy",
+                table: "PolicyRequestDocuments",
+                column: "UploadedBy");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PolicyTotalDescription_PolicyId",
                 table: "PolicyTotalDescription",
                 column: "PolicyId");
@@ -521,6 +567,9 @@ namespace ProjectHK3.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "PoliciesOnEmployees");
+
+            migrationBuilder.DropTable(
+                name: "PolicyRequestDocuments");
 
             migrationBuilder.DropTable(
                 name: "PolicyTotalDescription");

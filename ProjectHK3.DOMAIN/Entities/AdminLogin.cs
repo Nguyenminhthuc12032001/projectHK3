@@ -19,7 +19,7 @@ namespace ProjectHK3.Domain.Emtitys
         [Column("Email", TypeName = "VARCHAR(150)")]
         public string? EmailValue
         {
-            get => Email?.Value; 
+            get => Email?.Value;
             set => Email = new EmailAddress(value);
         }
 

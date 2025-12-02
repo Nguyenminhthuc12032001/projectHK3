@@ -12,8 +12,8 @@ using ProjectHK3.Infrastructure.Persistence;
 namespace ProjectHK3.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251128094531_v2")]
-    partial class v2
+    [Migration("20251130044728_v1")]
+    partial class v1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -103,8 +103,9 @@ namespace ProjectHK3.Infrastructure.Migrations
                     b.Property<string>("Department")
                         .HasColumnType("VARCHAR(100)");
 
-                    b.Property<string>("Email")
-                        .HasColumnType("VARCHAR(150)");
+                    b.Property<string>("EmailValue")
+                        .HasColumnType("VARCHAR(150)")
+                        .HasColumnName("Email");
 
                     b.Property<string>("FullName")
                         .HasColumnType("VARCHAR(150)");
@@ -407,6 +408,9 @@ namespace ProjectHK3.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
+
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Message")
                         .HasColumnType("TEXT");

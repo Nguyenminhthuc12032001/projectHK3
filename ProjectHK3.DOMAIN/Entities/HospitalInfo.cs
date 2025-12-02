@@ -36,9 +36,6 @@ namespace ProjectHK3.Domain.Entities
             set => Email = new EmailAddress(value);
         }
 
-        [Column(TypeName = "VARCHAR(255)")]
-        public string? ApiKey { get; set; }
-
         [Column(TypeName = "DATE")]
         public DateOnly RegisteredOn { get; set; }
     }

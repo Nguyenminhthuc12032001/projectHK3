@@ -6,5 +6,6 @@ namespace ProjectHK3.Application.Abstractions
     {
         string GenerateAccessToken(int Id, string Email, string Role = "Employee", IEnumerable<Claim>? extraClaims = null);
         string GenerateRefreshToken();
+        string HashToken(string token);
     }
 }

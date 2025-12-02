@@ -25,7 +25,7 @@ namespace ProjectHK3.Infrastructure.Repositories.Finance___Reporting
 
         public async Task<IEnumerable<TransactionLedger>> GetAllAsync()
         {
-            return await _context.TransactionLedger.ToListAsync();
+            return await _context.TransactionLedger.IgnoreQueryFilters().ToListAsync();
         }
 
         public async Task<TransactionLedger?> GetOneAsync(int id)
@@ -33,11 +33,19 @@ namespace ProjectHK3.Infrastructure.Repositories.Finance___Reporting
             return await _context.TransactionLedger.FindAsync(id);
         }
 
+        public async Task<bool> ReStoreById(int id)
+        {
+            var match = await _context.TransactionLedger.IgnoreQueryFilters().FirstOrDefaultAsync(e => e.Id == id);
+            if (match is null) return false;
+            match.IsDeleted = false;
+            return true;
+        }
+
         public async Task<TransactionLedger?> UpdateOneAsync(TransactionLedger entity)
         {
             var match = await _context.TransactionLedger.FindAsync(entity.Id);
             if (match is null) return null;
-            _context.TransactionLedger.Update(entity);
+            _context.Entry(match).CurrentValues.SetValues(entity);
             return match;
         }
     }

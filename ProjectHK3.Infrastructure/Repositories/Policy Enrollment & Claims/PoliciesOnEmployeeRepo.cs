@@ -24,7 +24,7 @@ namespace ProjectHK3.Infrastructure.Repositories.Policy_Enrollment___Claims
 
         public async Task<IEnumerable<PoliciesOnEmployee>> GetAllAsync()
         {
-            return await _context.PoliciesOnEmployee.ToListAsync();
+            return await _context.PoliciesOnEmployee.IgnoreQueryFilters().ToListAsync();
         }
 
         public async Task<PoliciesOnEmployee?> GetOneAsync(int id)
@@ -32,11 +32,20 @@ namespace ProjectHK3.Infrastructure.Repositories.Policy_Enrollment___Claims
             return await _context.PoliciesOnEmployee.FindAsync(id);
         }
 
+        public async Task<bool> ReStoreById(int id)
+        {
+            var match = await _context.PoliciesOnEmployee.IgnoreQueryFilters().FirstOrDefaultAsync(e => e.Id == id);
+            if (match is null) return false;
+            match.IsDeleted = false;
+            _context.PoliciesOnEmployee.Update(match);
+            return true;
+        }
+
         public async Task<PoliciesOnEmployee?> UpdateOneAsync(PoliciesOnEmployee entity)
         {
             var match = await _context.PoliciesOnEmployee.FindAsync(entity.Id);
             if (match is null) return null;
-            _context.PoliciesOnEmployee.Update(entity);
+            _context.Entry(match).CurrentValues.SetValues(entity);
             return match;
         }
     }

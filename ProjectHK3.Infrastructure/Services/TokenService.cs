@@ -42,13 +42,21 @@ namespace ProjectHK3.Infrastructure.Services
                 issuer: _configuration["JWT: Issuer"],
                 audience: _configuration["JWT: Audience"],
                 expires: DateTime.UtcNow.AddMinutes(
-                    Convert.ToDouble(_configuration["JWT: AccessTokenValidityInMinutes"])
+                    Convert.ToDouble(_configuration["JWT: AccessTokenExpirationMinutes"])
                 ),
                 claims: authClaims,
                 signingCredentials: creds
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        public string HashToken(string token)
+        {
+            using var sha256 = SHA256.Create();
+            var bytes = Encoding.UTF8.GetBytes(token);
+            var hashBytes = sha256.ComputeHash(bytes);
+            return Convert.ToBase64String(hashBytes);
         }
     }
 }
