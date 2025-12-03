@@ -24,7 +24,7 @@ namespace ProjectHK3.Infrastructure.Repositories.Hospital_Integration
 
         public async Task<IEnumerable<HospitalInfo>> GetAllAsync()
         {
-            return await _context.HospitalInfo.ToListAsync();
+            return await _context.HospitalInfo.IgnoreQueryFilters().ToListAsync();
         }
 
         public async Task<HospitalInfo?> GetOneAsync(int id)
@@ -32,11 +32,20 @@ namespace ProjectHK3.Infrastructure.Repositories.Hospital_Integration
             return await _context.HospitalInfo.FindAsync(id);
         }
 
+        public async Task<bool> ReStoreById(int id)
+        {
+            var match = await _context.HospitalInfo.IgnoreQueryFilters().FirstOrDefaultAsync(e => e.Id == id);
+            if (match is null) return false;
+            match.IsDeleted = false;
+            _context.HospitalInfo.Update(match);
+            return true;
+        }
+
         public async Task<HospitalInfo?> UpdateOneAsync(HospitalInfo entity)
         {
             var match = await _context.HospitalInfo.FindAsync(entity.Id);
             if (match is null) return null;
-            _context.HospitalInfo.Update(entity);
+            _context.Entry(match).CurrentValues.SetValues(entity);
             return match;
         }
     }

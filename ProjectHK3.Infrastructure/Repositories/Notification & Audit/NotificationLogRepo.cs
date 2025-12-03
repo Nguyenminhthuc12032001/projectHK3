@@ -31,19 +31,28 @@ namespace ProjectHK3.Infrastructure.Repositories.Notification___Audit
 
         public async Task<IEnumerable<NotificationLog>> GetAllAsync()
         {
-            return await _context.NotificationLog.ToListAsync();
+            return await _context.NotificationLog.IgnoreQueryFilters().ToListAsync();
         }
 
         public async Task<NotificationLog?> GetOneAsync(int id)
         {
             return await _context.NotificationLog.FindAsync(id);
         }
-            throw new NotSupportedException("Notification logs cannot be updated.");
-        public Task<NotificationLog?> UpdateOneAsync(NotificationLog entity)
+
+        public async Task<bool> ReStoreById(int id)
+        {
+            var match = await _context.NotificationLog.IgnoreQueryFilters().FirstOrDefaultAsync(e => e.Id == id);
+            if (match is null) return false;
+            match.IsDeleted = false;
+            _context.NotificationLog.Update(match);
+            return true;
+        }
+
+        public async Task<NotificationLog?> UpdateOneAsync(NotificationLog entity)
         {
             var match = await _context.NotificationLog.FindAsync(entity.Id);
             if (match is null) return null;
-            _context.NotificationLog.Update(entity);
+            _context.Entry(match).CurrentValues.SetValues(entity);
             return match;
         }
     }

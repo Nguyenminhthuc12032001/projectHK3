@@ -11,8 +11,15 @@ namespace ProjectHK3.Domain.Emtitys
         [Column(TypeName ="VARCHAR(150)")]
         public string? FullName { get; set; }
 
-        [Column(TypeName ="VARCHAR(150)")]
-        public string? Email { get; set; }
+        [NotMapped]
+        public EmailAddress? Email { get; set; }
+
+        [Column("Email", TypeName ="VARCHAR(150)")]
+        public string? EmailValue
+        {
+            get => Email?.Value;
+            set => Email = new EmailAddress(value);
+        }
 
         [NotMapped]
         public PhoneNumber? Phone { get; set; }
@@ -33,7 +40,7 @@ namespace ProjectHK3.Domain.Emtitys
         [Column(TypeName = "DATE")]
         public DateOnly HireDate { get; set; }
 
-        public string? Status { get; set; }
+        public StatusOfEmpRegister Status { get; set; }
 
         public int CompanyId { get; set; }
 

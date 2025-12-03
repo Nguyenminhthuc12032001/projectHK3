@@ -8,7 +8,7 @@ namespace ProjectHK3.Application.Abstractions.IServices
         Task<bool> UpdateInsurerAsync(int insurerId, UpdateInsurerRequest request);
         Task<bool> DeleteInsurerAsync(int insurerId);
         Task<InsurerDetailDto?> GetInsurerByIdAsync(int insurerId);
-        Task<IEnumerable<InsurerListDto>> GetAllInsurersAsync();
+        Task<IEnumerable<InsurerListDto>> GetAllInsurersAsync(bool includeDeleted);
         Task<IEnumerable<InsurerListDto>> SearchInsurerAsync(string query);
         Task<bool> SoftDeleteAsync(int insurerId);
         Task<bool> RestoreAsync(int insurerId);

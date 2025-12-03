@@ -4,7 +4,7 @@ namespace ProjectHK3.Application.Abstractions.IServices
 {
     public interface IPolicyRequestService
     {
-        Task<int> SubmitRequestAsync(CreatePolicyRequestDto request);
+        Task<int?> SubmitRequestAsync(CreatePolicyRequestDto request);
         Task<bool> UpdateRequestAsync(int requestId, UpdatePolicyRequestDto request);
         Task<DetailPolicyRequestDto?> GetByIdAsync(int requestId);
         Task<IEnumerable<ListPolicyRequestDto>> GetRequestByEmployeeId(int employeeId);

@@ -19,6 +19,7 @@ namespace ProjectHK3.Infrastructure.Persistence
         public DbSet<AdminLogin> AdminLogin { get; set; } 
         public DbSet<AuditTrail> AuditTrail { get; set; }
         public DbSet<AuthSession> AuthSession { get; set; }
+        public DbSet<PasswordResetToken> PasswordResetToken { get; set; }
         public DbSet<CompanyDetail> CompanyDetail { get; set; }
         public DbSet<EmpRegister> EmpRegister { get; set; }
         public DbSet<HospitalInfo> HospitalInfo { get; set; }

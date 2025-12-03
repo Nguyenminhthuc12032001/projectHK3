@@ -25,7 +25,7 @@ namespace ProjectHK3.Infrastructure.Repositories.Authentication
 
         public async Task<IEnumerable<AuthSession>> GetAllAsync()
         {
-            return await _context.AuthSession.ToListAsync();
+            return await _context.AuthSession.IgnoreQueryFilters().ToListAsync();
         }
 
         public async Task<AuthSession?> GetOneAsync(int id)
@@ -33,11 +33,20 @@ namespace ProjectHK3.Infrastructure.Repositories.Authentication
             return await _context.AuthSession.FindAsync(id);
         }
 
+        public async Task<bool> ReStoreById(int id)
+        {
+            var match = await _context.AuthSession.IgnoreQueryFilters().FirstOrDefaultAsync(e => e.Id == id);
+            if (match == null) return false;
+            match.IsDeleted = false;
+            _context.AuthSession.Update(match);
+            return true;
+        }
+
         public async Task<AuthSession?> UpdateOneAsync(AuthSession entity)
         {
             var match = await _context.AuthSession.FindAsync(entity.Id);
             if (match == null) return null;
-            _context.AuthSession.Update(entity);
+            _context.Entry(match).CurrentValues.SetValues(entity);
             return match;
         }
     }

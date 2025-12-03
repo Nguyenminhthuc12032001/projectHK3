@@ -25,7 +25,7 @@ namespace ProjectHK3.Domain.Entities
         [Column(TypeName = "VARCHAR(255)")]
         public string? RefreshToken { get; set; }
 
-        public DateTime ExpiresAt { get; set; }
+        public DateTime ExpiresAt { get; set; } = DateTime.UtcNow.AddDays(7);
     }
 
     public enum RoleOfAuthSession

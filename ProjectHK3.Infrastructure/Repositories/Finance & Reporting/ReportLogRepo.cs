@@ -24,7 +24,7 @@ namespace ProjectHK3.Infrastructure.Repositories.Finance___Reporting
 
         public async Task<IEnumerable<ReportLog>> GetAllAsync()
         {
-            return await _context.ReportLog.ToListAsync();
+            return await _context.ReportLog.IgnoreQueryFilters().ToListAsync();
         }
 
         public async Task<ReportLog?> GetOneAsync(int id)
@@ -32,11 +32,19 @@ namespace ProjectHK3.Infrastructure.Repositories.Finance___Reporting
             return await _context.ReportLog.FindAsync(id);
         }
 
+        public async Task<bool> ReStoreById(int id)
+        {
+            var match = await _context.ReportLog.IgnoreQueryFilters().FirstOrDefaultAsync(e => e.Id == id);
+            if (match is null) return false;
+            match.IsDeleted = false;
+            return true;
+        }
+
         public async Task<ReportLog?> UpdateOneAsync(ReportLog entity)
         {
             var match = await _context.ReportLog.FindAsync(entity.Id);
             if (match is null) return null;
-            _context.ReportLog.Update(entity);
+            _context.Entry(match).CurrentValues.SetValues(entity);
             return match;
         }
     }

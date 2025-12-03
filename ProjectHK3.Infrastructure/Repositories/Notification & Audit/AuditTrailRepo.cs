@@ -54,7 +54,7 @@ namespace ProjectHK3.Infrastructure.Repositories.Notification___Audit
 
         public async Task<IEnumerable<AuditTrail>> GetAllAsync()
         {
-            return  await _context.AuditTrail.ToListAsync();
+            return await _context.AuditTrail.IgnoreQueryFilters().ToListAsync();
         }
 
         public async Task<AuditTrail?> GetOneAsync(int id)
@@ -62,11 +62,20 @@ namespace ProjectHK3.Infrastructure.Repositories.Notification___Audit
             return await _context.AuditTrail.FindAsync(id);
         }
 
-        public Task<AuditTrail?> UpdateOneAsync(AuditTrail entity)
+        public async Task<bool> ReStoreById(int id)
+        {
+            var match = await _context.AuditTrail.IgnoreQueryFilters().FirstOrDefaultAsync(e => e.Id == id);
+            if (match is null) return false;
+            match.IsDeleted = false;
+            _context.AuditTrail.Update(match);
+            return true;
+        }
+
+        public async Task<AuditTrail?> UpdateOneAsync(AuditTrail entity)
         {
             var match = await _context.AuditTrail.FindAsync(entity.Id);
             if (match is null) return null;
-            _context.AuditTrail.Update(entity);
+            _context.Entry(match).CurrentValues.SetValues(entity);
             return match;
         }
     }

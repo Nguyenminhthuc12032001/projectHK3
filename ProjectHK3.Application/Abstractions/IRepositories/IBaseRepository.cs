@@ -7,5 +7,6 @@
         Task<IEnumerable<T>> GetAllAsync();
         Task<T?> UpdateOneAsync(T entity);
         Task<bool> DeleteOneAsync(int id);
+        Task<bool> ReStoreById(int id);
     }
 }

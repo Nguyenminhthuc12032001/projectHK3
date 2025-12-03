@@ -24,7 +24,7 @@ namespace ProjectHK3.Infrastructure.Repositories.Insurer___Policy
 
         public async Task<IEnumerable<CompanyDetail>> GetAllAsync()
         {
-            return await _context.CompanyDetail.ToListAsync();
+            return await _context.CompanyDetail.IgnoreQueryFilters().ToListAsync();
         }
 
         public async Task<CompanyDetail?> GetOneAsync(int id)
@@ -32,11 +32,20 @@ namespace ProjectHK3.Infrastructure.Repositories.Insurer___Policy
             return await _context.CompanyDetail.FindAsync(id);
         }
 
+        public async Task<bool> ReStoreById(int id)
+        {
+            var match = await _context.CompanyDetail.IgnoreQueryFilters().FirstOrDefaultAsync(e => e.Id == id);
+            if (match is null) return false;
+            match.IsDeleted = false;
+            _context.CompanyDetail.Update(match);
+            return true;
+        }
+
         public async Task<CompanyDetail?> UpdateOneAsync(CompanyDetail entity)
         {
             var match = await _context.CompanyDetail.FindAsync(entity.Id);
             if (match is null) return null;
-            _context.CompanyDetail.Update(entity);
+            _context.Entry(match).CurrentValues.SetValues(entity);
             return match;
         }
     }
