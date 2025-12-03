@@ -1,6 +1,4 @@
-﻿using ProjectHK3.Domain.ValueObjects;
-
-namespace ProjectHK3.Application.DTOs.Auth
+﻿namespace ProjectHK3.Application.DTOs.Auth
 {
     public class UserInfoDto
     {

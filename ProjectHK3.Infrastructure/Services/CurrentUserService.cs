@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using ProjectHK3.Application.Abstractions;
-using ProjectHK3.Domain.ValueObjects;
 using System.Security.Claims;
 
 namespace ProjectHK3.Infrastructure.Services
 {
-    public class CurrentUserService(HttpContextAccessor httpContextAccessor) : ICurrentUserService
+    public class CurrentUserService(IHttpContextAccessor httpContextAccessor) : ICurrentUserService
     {
         readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
 

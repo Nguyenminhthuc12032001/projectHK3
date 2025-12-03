@@ -122,8 +122,8 @@ namespace ProjectHK3.Infrastructure.Migrations
                         .HasColumnType("VARCHAR(20)")
                         .HasColumnName("Phone");
 
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset>("UpdatedAt")
                         .ValueGeneratedOnAdd()
@@ -333,9 +333,6 @@ namespace ProjectHK3.Infrastructure.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("VARCHAR(100)");
 
-                    b.Property<string>("ApiKey")
-                        .HasColumnType("VARCHAR(255)");
-
                     b.Property<string>("City")
                         .HasColumnType("TEXT");
 
@@ -474,6 +471,9 @@ namespace ProjectHK3.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
+
+                    b.Property<int>("TokenType")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset>("UpdatedAt")
                         .ValueGeneratedOnAdd()

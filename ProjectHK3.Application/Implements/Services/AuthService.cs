@@ -40,7 +40,7 @@ namespace ProjectHK3.Application.Implements.Services
             {
                 UserName = request.UserName,
                 Email = new EmailAddress(request.Email),
-                PasswordHash = request.Password,
+                PasswordHash = _passwordService.HashPassword(request.Password), 
                 Role = request.Role switch
                 {
                     "Admin" => RoleOfAdminLogin.Admin,
@@ -88,7 +88,7 @@ namespace ProjectHK3.Application.Implements.Services
                 var resetLink = $"https://yourapp.com/reset-password?token={token}";
                 
                 var oldTokens = await _passwordResetTokenRepo.GetAllAsync();
-                var oldTokenMatch = oldTokens.FirstOrDefault(t => t.AdminId == matchAdmin.Id && !t.Used && t.ExpiresAt > DateTime.UtcNow && t.IsDeleted == false);
+                var oldTokenMatch = oldTokens.FirstOrDefault(t => t.AdminId == matchAdmin.Id && !t.Used && t.ExpiresAt > DateTime.UtcNow && t.IsDeleted == false && t.TokenType == TokenType.PasswordReset);
                 if (oldTokenMatch != null)
                 {
                     oldTokenMatch.Used = true;
@@ -98,7 +98,8 @@ namespace ProjectHK3.Application.Implements.Services
                 await _passwordResetTokenRepo.AddOneAsync(new PasswordResetToken
                 {
                     AdminId = matchAdmin.Id,
-                    HashedToken = _tokenService.HashToken(token)
+                    HashedToken = _tokenService.HashToken(token),
+                    TokenType = TokenType.PasswordReset
                 });
                 await _unitOfWork.SaveChangesAsync();
                 await _emailSender.SendEmailAsync(
@@ -117,7 +118,7 @@ namespace ProjectHK3.Application.Implements.Services
                 var resetLink = $"https://yourapp.com/reset-password?token={token}";
 
                 var oldTokens = await _passwordResetTokenRepo.GetAllAsync();
-                var oldTokenMatch = oldTokens.FirstOrDefault(t => t.EmpId == matchEmployee.Id && !t.Used && t.ExpiresAt > DateTime.UtcNow && t.IsDeleted == false);
+                var oldTokenMatch = oldTokens.FirstOrDefault(t => t.EmpId == matchEmployee.Id && !t.Used && t.ExpiresAt > DateTime.UtcNow && t.IsDeleted == false && t.TokenType == TokenType.PasswordReset);
                 if (oldTokenMatch != null)
                 {
                     oldTokenMatch.Used = true;
@@ -126,7 +127,8 @@ namespace ProjectHK3.Application.Implements.Services
                 await _passwordResetTokenRepo.AddOneAsync(new PasswordResetToken
                 {
                     EmpId = matchEmployee.Id,
-                    HashedToken = _tokenService.HashToken(token)
+                    HashedToken = _tokenService.HashToken(token),
+                    TokenType = TokenType.PasswordReset
                 });
                 await _unitOfWork.SaveChangesAsync();
                 await _emailSender.SendEmailAsync(
@@ -181,17 +183,18 @@ namespace ProjectHK3.Application.Implements.Services
         {
             var admins = await _adminLoginRepo.GetAllAsync();
             var employees = await _employeeRegisterRepo.GetAllAsync();
-            var matchAdmin = admins.FirstOrDefault(a => a.Email == new EmailAddress(request.Email) && a.IsDeleted == false);
-            var matchEmployee = employees.FirstOrDefault(e => e.Email == new EmailAddress(request.Email) && e.IsDeleted == false);
+            var matchAdmin = admins.FirstOrDefault(a => a.Email == new EmailAddress(request.Email) && a.IsDeleted == false && a.Status == StatusOfAdminLogin.Active);
+            var matchEmployee = employees.FirstOrDefault(e => e.Email == new EmailAddress(request.Email) && e.IsDeleted == false && e.Status == StatusOfEmpRegister.Active);
             if (matchAdmin == null && matchEmployee == null)
             {
                 return null;
             }
-
             AuthSession authSession = new();
             var reFreshToken = _tokenService.GenerateRefreshToken();
             if (matchAdmin != null)
             {
+                var result = _passwordService.VerifyPassword(matchAdmin.PasswordHash!, request.Password!);
+                if (!result) return null;
                 var accessToken = _tokenService.GenerateAccessToken(matchAdmin.Id, matchAdmin.Email!.ToString());
                 authSession.AdminId = matchAdmin.Id;
                 authSession.RefreshToken = reFreshToken;
@@ -213,6 +216,8 @@ namespace ProjectHK3.Application.Implements.Services
             }
             else if (matchEmployee != null)
             {
+                var result = _passwordService.VerifyPassword(matchEmployee.PasswordHash!, request.Password!);
+                if (! result) return null;
                 var accessToken = _tokenService.GenerateAccessToken(matchEmployee.Id, matchEmployee.Email!.ToString());
                 authSession.EmployeeId = matchEmployee.Id;
                 authSession.RefreshToken = reFreshToken;
@@ -255,16 +260,41 @@ namespace ProjectHK3.Application.Implements.Services
                 Department = request.Department,
                 HireDate = DateOnly.Parse(request.HireDate),
                 CompanyId = request.CompanyId,
+                Status = StatusOfEmpRegister.Inactive,
             };
             await _employeeRegisterRepo.AddOneAsync(newEmployee);
             await _unitOfWork.SaveChangesAsync();
+
+            var token = Guid.NewGuid().ToString();
+            var verifyLink = $"https://yourapp.com/verify-account?token={token}";
+
+            var oldTokens = await _passwordResetTokenRepo.GetAllAsync();
+            var oldTokenMatch = oldTokens.FirstOrDefault(t => t.EmpId == newEmployee.Id && !t.Used && t.ExpiresAt > DateTime.UtcNow && t.IsDeleted == false && t.TokenType == TokenType.EmailVerification);
+            if (oldTokenMatch != null)
+            {
+                oldTokenMatch.Used = true;
+                oldTokenMatch.IsDeleted = true;
+                await _passwordResetTokenRepo.UpdateOneAsync(oldTokenMatch);
+            }
+            await _passwordResetTokenRepo.AddOneAsync(new PasswordResetToken
+            {
+                EmpId = newEmployee.Id,
+                HashedToken = _tokenService.HashToken(token),
+                TokenType = TokenType.EmailVerification
+            });
+            await _unitOfWork.SaveChangesAsync();
+            await _emailSender.SendEmailAsync(
+                newEmployee.Email.ToString(),
+                "Verify Account Request",
+                $"Click the link to verify your account: {verifyLink}"
+            );
             return true;
         }
 
         public async Task<bool> ResetPasswordAsync(ResetPasswordRequest request)
         {
             var tokens = await _passwordResetTokenRepo.GetAllAsync();
-            var match = tokens.FirstOrDefault(t => t.HashedToken == _tokenService.HashToken(request.Token!) && !t.Used && t.ExpiresAt > DateTime.UtcNow && t.IsDeleted == false);
+            var match = tokens.FirstOrDefault(t => t.HashedToken == _tokenService.HashToken(request.Token!) && !t.Used && t.ExpiresAt > DateTime.UtcNow && t.IsDeleted == false && t.TokenType == TokenType.PasswordReset);
             if (match == null) return false;
             if (match.AdminId != 0)
             {
@@ -291,9 +321,27 @@ namespace ProjectHK3.Application.Implements.Services
             return false;
         }
 
-        public Task<AuthValidateResponse?> ValidateTokenAsync(string token)
+        public async Task<AuthValidateResponse?> ValidateTokenAsync(string token)
         {
-            throw new NotImplementedException();
+            var all = await _passwordResetTokenRepo.GetAllAsync();
+
+            var match = all.FirstOrDefault(a => a.HashedToken == _tokenService.HashToken(token) && a.TokenType == TokenType.EmailVerification && a.ExpiresAt >= DateTime.UtcNow && a.IsDeleted == false && a.Used == false);
+            if (match == null) return null;
+            match.Used = true;
+
+            var empMatch = await _employeeRegisterRepo.GetOneAsync(match.EmpId);
+            if (empMatch == null) return null;
+            empMatch.Status = StatusOfEmpRegister.Active;
+
+            await _unitOfWork.SaveChangesAsync();
+
+            return new AuthValidateResponse
+            {
+                EmpId = empMatch.Id,
+                Name = empMatch.FullName ?? string.Empty,
+                Email = empMatch.Email!.ToString(),
+                Status = empMatch.Status.ToString(),
+            };
         }
     }
 }

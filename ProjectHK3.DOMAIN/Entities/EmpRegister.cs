@@ -40,7 +40,7 @@ namespace ProjectHK3.Domain.Emtitys
         [Column(TypeName = "DATE")]
         public DateOnly HireDate { get; set; }
 
-        public string? Status { get; set; }
+        public StatusOfEmpRegister Status { get; set; }
 
         public int CompanyId { get; set; }
 

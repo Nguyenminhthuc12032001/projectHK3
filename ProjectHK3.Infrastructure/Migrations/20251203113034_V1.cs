@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ProjectHK3.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class v1 : Migration
+    public partial class V1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -44,7 +44,6 @@ namespace ProjectHK3.Infrastructure.Migrations
                     City = table.Column<string>(type: "TEXT", nullable: true),
                     ContactPhone = table.Column<string>(type: "VARCHAR(20)", nullable: true),
                     Email = table.Column<string>(type: "VARCHAR(150)", nullable: true),
-                    ApiKey = table.Column<string>(type: "VARCHAR(255)", nullable: true),
                     RegisteredOn = table.Column<DateOnly>(type: "DATE", nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false, defaultValueSql: "GETUTCDATE()"),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true, defaultValue: "System"),
@@ -146,7 +145,7 @@ namespace ProjectHK3.Infrastructure.Migrations
                     PasswordHash = table.Column<string>(type: "VARCHAR(255)", nullable: true),
                     Department = table.Column<string>(type: "VARCHAR(100)", nullable: true),
                     HireDate = table.Column<DateOnly>(type: "DATE", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Status = table.Column<int>(type: "int", nullable: false),
                     CompanyId = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false, defaultValueSql: "GETUTCDATE()"),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true, defaultValue: "System"),
@@ -260,6 +259,41 @@ namespace ProjectHK3.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_AuthSession_EmpRegister_EmployeeId",
                         column: x => x.EmployeeId,
+                        principalTable: "EmpRegister",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PasswordResetTokens",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EmpId = table.Column<int>(type: "int", nullable: false),
+                    AdminId = table.Column<int>(type: "int", nullable: false),
+                    HashedToken = table.Column<string>(type: "VARCHAR(500)", nullable: false),
+                    ExpiresAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Used = table.Column<bool>(type: "bit", nullable: false),
+                    TokenType = table.Column<int>(type: "int", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false, defaultValueSql: "GETUTCDATE()"),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true, defaultValue: "System"),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false, defaultValueSql: "GETUTCDATE()"),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true, defaultValue: "System"),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PasswordResetTokens", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PasswordResetTokens_AdminLogin_AdminId",
+                        column: x => x.AdminId,
+                        principalTable: "AdminLogin",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_PasswordResetTokens_EmpRegister_EmpId",
+                        column: x => x.EmpId,
                         principalTable: "EmpRegister",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -490,6 +524,16 @@ namespace ProjectHK3.Infrastructure.Migrations
                 column: "CompanyId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PasswordResetTokens_AdminId",
+                table: "PasswordResetTokens",
+                column: "AdminId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PasswordResetTokens_EmpId",
+                table: "PasswordResetTokens",
+                column: "EmpId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Policies_CompanyId",
                 table: "Policies",
                 column: "CompanyId");
@@ -564,6 +608,9 @@ namespace ProjectHK3.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "NotificationLog");
+
+            migrationBuilder.DropTable(
+                name: "PasswordResetTokens");
 
             migrationBuilder.DropTable(
                 name: "PoliciesOnEmployees");

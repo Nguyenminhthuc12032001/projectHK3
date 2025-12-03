@@ -22,5 +22,14 @@ namespace ProjectHK3.Domain.Entities
         public DateTime ExpiresAt { get; set; } = DateTime.UtcNow.AddMinutes(10);
 
         public bool Used { get; set; } = false;
+
+        public TokenType TokenType { get; set; }
     }
+
+    public enum TokenType
+    {
+        EmailVerification = 0,
+        PasswordReset = 1
+    }
+
 }
