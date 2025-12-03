@@ -15,5 +15,6 @@ namespace ProjectHK3.Application.Abstractions.IServices
         Task<bool> ResetPasswordAsync(ResetPasswordRequest request);
         Task<AuthValidateResponse?> ValidateTokenAsync(string token);
         Task<UserInfoDto?> GetCurrentUserAsync();
+        Task<AuthResponse?> RefreshTokenAsync(string refreshToken);
     }
 }

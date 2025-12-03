@@ -10,25 +10,17 @@ namespace ProjectHK3.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController : ControllerBase
+    public class AuthController(IAuthService authService, IMapper mapper) : ControllerBase
     {
-        private readonly IAuthService _authService;
-        private readonly IMapper _mapper;
-
-        public AuthController(IAuthService authService, IMapper mapper)
-        {
-            _authService = authService;
-            _mapper = mapper;
-        }
+        private readonly IAuthService _authService = authService;
+        private readonly IMapper _mapper = mapper;
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
             var request = _mapper.Map<LoginRequest>(model);
-            var result = await _authService.LoginAsync(request);
-
-            if (result == null)
-                throw new BusinessException("Invalid email or password", 401);
+            var result = await _authService.LoginAsync(request)
+                ?? throw new BusinessException("Invalid email or password", 401);
 
             return Ok(_mapper.Map<AuthResponseModel>(result));
         }
@@ -111,8 +103,8 @@ namespace ProjectHK3.Api.Controllers
         [HttpGet("current")]
         public async Task<IActionResult> GetCurrentUser()
         {
-            var user = await _authService.GetCurrentUserAsync();
-            if (user == null) throw new BusinessException("User not found", 404);
+            var user = await _authService.GetCurrentUserAsync()
+                ?? throw new BusinessException("User not found", 404);
 
             return Ok(_mapper.Map<UserInfoModel>(user));
         }
@@ -120,9 +112,8 @@ namespace ProjectHK3.Api.Controllers
         [HttpGet("validate")]
         public async Task<IActionResult> ValidateToken([FromQuery] string token)
         {
-            var result = await _authService.ValidateTokenAsync(token);
-            if (result == null)
-                throw new BusinessException("Invalid or expired verification token", 400);
+            var result = await _authService.ValidateTokenAsync(token)
+                ?? throw new BusinessException("Invalid or expired verification token", 400);
 
             return Ok(_mapper.Map<AuthValidateResponseModel>(result));
         }
@@ -137,6 +128,19 @@ namespace ProjectHK3.Api.Controllers
                 throw new BusinessException("Logout failed", 400);
 
             return Ok(new { message = "Logged out successfully" });
+        }
+
+        [HttpPost("refresh")]
+        public async Task<IActionResult> Refresh([FromBody] RefreshTokenModel refreshToken)
+        {
+            var result = await _authService.RefreshTokenAsync(refreshToken.RefreshToken);
+
+            if (result == null)
+            {
+                return Unauthorized(new { message = "Invalid or expired refresh token" });
+            }
+
+            return Ok(result);
         }
     }
 }

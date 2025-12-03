@@ -195,7 +195,7 @@ namespace ProjectHK3.Application.Implements.Services
             {
                 var result = _passwordService.VerifyPassword(matchAdmin.PasswordHash!, request.Password!);
                 if (!result) return null;
-                var accessToken = _tokenService.GenerateAccessToken(matchAdmin.Id, matchAdmin.Email!.ToString());
+                var accessToken = _tokenService.GenerateAccessToken(matchAdmin.Id, matchAdmin.Email!.ToString(), matchAdmin.Role.ToString());
                 authSession.AdminId = matchAdmin.Id;
                 authSession.RefreshToken = reFreshToken;
                 authSession.Role = matchAdmin.Role switch
@@ -242,6 +242,37 @@ namespace ProjectHK3.Application.Implements.Services
             await _authSessionRepo.DeleteOneAsync(match.Id);
             await _unitOfWork.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<AuthResponse?> RefreshTokenAsync(string refreshToken)
+        {
+            var sessions = await _authSessionRepo.GetAllAsync();
+            var match = sessions.FirstOrDefault(s => s.RefreshToken == refreshToken && s.ExpiresAt > DateTime.UtcNow && s.IsDeleted == false);
+            if (match == null) return null;
+            string accessToken;
+            if (match.AdminId != null && match.AdminId > 0)
+            {
+                var admin = await _adminLoginRepo.GetOneAsync(match.AdminId.Value);
+                if (admin == null) return null;
+                accessToken = _tokenService.GenerateAccessToken(admin.Id, admin.Email!.ToString(), admin.Role.ToString());
+            }
+            else if (match.EmployeeId != null && match.EmployeeId > 0)
+            {
+                var employee = await _employeeRegisterRepo.GetOneAsync(match.EmployeeId.Value);
+                if (employee == null) return null;
+                accessToken = _tokenService.GenerateAccessToken(employee.Id, employee.Email!.ToString());
+            }
+            else
+            {
+                return null;
+            }
+
+            return new AuthResponse
+            {
+                AccessToken = accessToken,
+                RefreshToken = refreshToken,
+                ExpireAt = match.ExpiresAt
+            };
         }
 
         public async Task<bool> RegisterAsync(RegisterRequest request)
