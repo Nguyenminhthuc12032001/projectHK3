@@ -51,8 +51,6 @@ namespace ProjectHK3.Application.Implements.Services
             var approval = await _policyApprovalDetailRepo.GetOneAsync(claimId);
             if (approval == null || approval.IsDeleted) return false;
             if (approval.Status != StatusOfPolicyApprovalDetail.Approved) return false;
-
-            // Check if disbursement already exists
             var transactions = await _transactionLedgerRepo.GetAllAsync();
             var existingTransaction = transactions.FirstOrDefault(t =>
                 t.ApprovalId == claimId &&
