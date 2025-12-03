@@ -2,7 +2,7 @@
 
 namespace ProjectHK3.Application.Abstractions.IRepositories
 {
-    internal interface IPolicyApprovalDetailRepo
+    public interface IPolicyApprovalDetailRepo : IBaseRepository<PolicyApprovalDetail>
     {
     }
 }
