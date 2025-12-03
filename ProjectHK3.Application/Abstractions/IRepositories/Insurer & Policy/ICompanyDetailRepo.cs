@@ -4,5 +4,6 @@ namespace ProjectHK3.Application.Abstractions.IRepositories
 {
     public interface ICompanyDetailRepo : IBaseRepository<CompanyDetail>
     {
+
     }
 }
