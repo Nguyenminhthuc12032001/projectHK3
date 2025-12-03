@@ -17,6 +17,8 @@ namespace ProjectHK3.Domain.Entities
         [Column(TypeName = "TEXT")]
         public string? Message { get; set; }
 
+        public bool IsRead { get; set; } = false;
+
         public StatusOfNotificationLog Status { get; set; }
     }
     public enum TypeOfNotificationLog

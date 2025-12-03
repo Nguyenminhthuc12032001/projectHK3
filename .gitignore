@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+.vs/
+=======
 # Visual Studio
 .vs/
 *.user
@@ -19,3 +22,4 @@ CodeChunks.db*
 # ASP.NET temp
 *.db-wal
 *.db-shm
+>>>>>>> eeda49e5df6e5b6204e5976c2497f1b411f23fe8

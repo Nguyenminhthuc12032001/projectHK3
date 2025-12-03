@@ -22,7 +22,34 @@ namespace ProjectHK3.Infrastructure.Repositories.Notification___Audit
 
         public Task<bool> DeleteOneAsync(int id)
         {
-            throw new NotSupportedException("AuditTrail cannot be deleted.");
+            throw new NotSupportedException("Audit trails cannot be deleted.");
+            if (match is null) return false;
+            _context.AuditTrail.Remove(match);
+            return true;
+            if (match is null) return false;
+            _context.AuditTrail.Remove(match);
+            return true;
+            if (match is null) return false;
+            _context.AuditTrail.Remove(match);
+            return true;
+            if (match is null) return false;
+            _context.AuditTrail.Remove(match);
+            return true;
+            if (match is null) return false;
+            _context.AuditTrail.Remove(match);
+            var match = await _context.AuditTrail.FindAsync(entity.Id);
+            if (match is null) return null;
+            _context.AuditTrail.Update(entity);
+            return match;
+            if (match is null) return false;
+            _context.AuditTrail.Remove(match);
+            var match = await _context.AuditTrail.FindAsync(entity.Id);
+            if (match is null) return null;
+            _context.AuditTrail.Update(entity);
+            return match;
+            if (match is null) return false;
+            _context.AuditTrail.Remove(match);
+            return true;
         }
 
         public async Task<IEnumerable<AuditTrail>> GetAllAsync()
@@ -37,7 +64,10 @@ namespace ProjectHK3.Infrastructure.Repositories.Notification___Audit
 
         public Task<AuditTrail?> UpdateOneAsync(AuditTrail entity)
         {
-            throw new NotSupportedException("AuditTrail cannot be edited");
+            var match = await _context.AuditTrail.FindAsync(entity.Id);
+            if (match is null) return null;
+            _context.AuditTrail.Update(entity);
+            return match;
         }
     }
 }
