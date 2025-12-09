@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProjectHK3.Application.Abstractions.IRepositories.Authentication;
-using ProjectHK3.Domain.Emtitys;
+using ProjectHK3.Domain.Entities;
 using ProjectHK3.Infrastructure.Persistence;
 
 namespace ProjectHK3.Infrastructure.Repositories.Authentication

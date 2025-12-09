@@ -33,16 +33,16 @@ namespace ProjectHK3.Infrastructure.Services
                 authClaims.AddRange(extraClaims);
 
             var key = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]!)
+                Encoding.UTF8.GetBytes(_configuration["Jwt:Secret"]!)
             );
 
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
-                issuer: _configuration["JWT: Issuer"],
-                audience: _configuration["JWT: Audience"],
+                issuer: _configuration["Jwt:Issuer"],
+                audience: _configuration["Jwt:Audience"],
                 expires: DateTime.UtcNow.AddMinutes(
-                    Convert.ToDouble(_configuration["JWT: AccessTokenExpirationMinutes"])
+                    Convert.ToDouble(_configuration["Jwt:AccessTokenExpirationMinutes"])
                 ),
                 claims: authClaims,
                 signingCredentials: creds

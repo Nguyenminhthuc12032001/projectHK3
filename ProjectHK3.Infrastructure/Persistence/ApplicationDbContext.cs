@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProjectHK3.Application.Abstractions;
 using ProjectHK3.Domain.Common;
-using ProjectHK3.Domain.Emtitys;
 using ProjectHK3.Domain.Entities;
 using System.Linq.Expressions;
 
@@ -70,7 +69,7 @@ namespace ProjectHK3.Infrastructure.Persistence
         {
             var param = Expression.Parameter(entityType, "e");
             var prop = Expression.Property(param, nameof(BaseEntity.IsDeleted));
-            var compare = Expression.IsFalse(prop);
+            var compare = Expression.Equal(prop, Expression.Constant(false));
             return Expression.Lambda(compare, param);
         }
 

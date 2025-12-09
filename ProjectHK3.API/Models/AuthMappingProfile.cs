@@ -8,13 +8,13 @@ namespace ProjectHK3.Api.Models
     {
         public AuthMappingProfile()
         {
-            CreateMap<LoginModel, LoginRequest>();
-            CreateMap<RegisterModel, RegisterRequest>();
-            CreateMap<NewAdminModel, NewAdminRequest>();
+            CreateMap<LoginModel, LoginRequest>().ReverseMap();
+            CreateMap<RegisterModel, RegisterRequest>().ReverseMap();
+            CreateMap<NewAdminModel, NewAdminRequest>().ReverseMap();
 
-            CreateMap<ChangePasswordModel.Admin, ChangePasswordRequest.Admin>();
-            CreateMap<ChangePasswordModel.Employee, ChangePasswordRequest.Employee>();
-            CreateMap<ResetPasswordModel, ResetPasswordRequest>();
+            CreateMap<ChangePasswordModel.Admin, ChangePasswordRequest.Admin>().ReverseMap();
+            CreateMap<ChangePasswordModel.Employee, ChangePasswordRequest.Employee>().ReverseMap();
+            CreateMap<ResetPasswordModel, ResetPasswordRequest>().ReverseMap();
 
             CreateMap<AuthResponse, AuthResponseModel>();
             CreateMap<AuthValidateResponse, AuthValidateResponseModel>();

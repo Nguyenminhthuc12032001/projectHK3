@@ -1,9 +1,8 @@
 ﻿using ProjectHK3.Domain.Common;
-using ProjectHK3.Domain.Entities;
 using ProjectHK3.Domain.ValueObjects;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ProjectHK3.Domain.Emtitys
+namespace ProjectHK3.Domain.Entities
 {
     [Table("EmpRegister")]
     public class EmpRegister : BaseEntity

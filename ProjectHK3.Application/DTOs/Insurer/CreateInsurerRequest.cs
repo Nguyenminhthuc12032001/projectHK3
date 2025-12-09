@@ -1,8 +1,4 @@
-﻿using ProjectHK3.Domain.Emtitys;
-using ProjectHK3.Domain.ValueObjects;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace ProjectHK3.Application.DTOs.Insurer
+﻿namespace ProjectHK3.Application.DTOs.Insurer
 {
     public class CreateInsurerRequest
     {

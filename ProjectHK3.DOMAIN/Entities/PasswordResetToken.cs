@@ -1,5 +1,4 @@
 ﻿using ProjectHK3.Domain.Common;
-using ProjectHK3.Domain.Emtitys;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProjectHK3.Domain.Entities
@@ -7,12 +6,13 @@ namespace ProjectHK3.Domain.Entities
     [Table("PasswordResetTokens")]
     public class PasswordResetToken : BaseEntity
     {
-        public int EmpId { get; set; }
+        public int? EmpId { get; set; }
 
         [ForeignKey(nameof(EmpId))]
         public EmpRegister? Employee { get; set; }
 
-        public int AdminId { get; set; }
+        public int? AdminId { get; set; }
+
         [ForeignKey(nameof(AdminId))]
         public AdminLogin? Admin { get; set; }
 

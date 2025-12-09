@@ -14,6 +14,6 @@ namespace ProjectHK3.Infrastructure.Services
 
         public string? Role => _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Role)?.Value != null 
             ? _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Role)?.Value
-            : null;
+            : "Employee";
     }
 }

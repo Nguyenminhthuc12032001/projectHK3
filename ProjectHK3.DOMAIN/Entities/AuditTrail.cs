@@ -1,5 +1,4 @@
 ﻿using ProjectHK3.Domain.Common;
-using ProjectHK3.Domain.Emtitys;
 using System.ComponentModel.DataAnnotations.Schema;
 namespace ProjectHK3.Domain.Entities
 {

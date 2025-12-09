@@ -1,4 +1,4 @@
-﻿namespace ProjectHK3.Api.Exceptions
+﻿namespace ProjectHK3.Application.Exceptions
 {
         public class BusinessException : Exception
         {

@@ -1,13 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProjectHK3.Application.Abstractions.IRepositories;
-using ProjectHK3.Application.Abstractions.IServices;
 using ProjectHK3.Domain.Entities;
 using ProjectHK3.Infrastructure.Persistence;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ProjectHK3.Infrastructure.Repositories.Notification___Audit
 {
@@ -21,9 +15,9 @@ namespace ProjectHK3.Infrastructure.Repositories.Notification___Audit
             return entity;
         }
 
-        public Task<bool> DeleteOneAsync(int id)
+        public async Task<bool> DeleteOneAsync(int id)
         {
-            throw new NotSupportedException("Notification logs cannot be deleted.");
+            var match = await _context.NotificationLog.FindAsync(id);
             if (match is null) return false;
             _context.NotificationLog.Remove(match);
             return true;

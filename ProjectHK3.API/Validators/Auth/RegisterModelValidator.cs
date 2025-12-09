@@ -12,8 +12,8 @@ public class RegisterModelValidator : AbstractValidator<RegisterModel>
             .NotEmpty().EmailAddress();
 
         RuleFor(x => x.Phone)
-            .NotEmpty().WithMessage("Phone number is required.")
-            .Matches(@"^\d{9,11}$").WithMessage("Phone must be 9-11 digits.");
+            .Matches(@"^\+[1-9]\d{1,14}$")
+            .WithMessage("Phone must follow international format (E.164). Example: +84912345678");
 
         RuleFor(x => x.Password)
             .NotEmpty()
@@ -23,7 +23,11 @@ public class RegisterModelValidator : AbstractValidator<RegisterModel>
             .NotEmpty();
 
         RuleFor(x => x.HireDate)
-            .NotEmpty().WithMessage("Hire date is required.");
+            .NotEmpty()
+            .Matches(@"^\d{4}-\d{2}-\d{2}$")
+            .WithMessage("Hire date must be in format yyyy-MM-dd.")
+            .Must(date => DateOnly.TryParse(date, out _))
+            .WithMessage("Hire date is invalid.");
 
         RuleFor(x => x.CompanyId)
             .GreaterThan(0).WithMessage("Invalid company.");

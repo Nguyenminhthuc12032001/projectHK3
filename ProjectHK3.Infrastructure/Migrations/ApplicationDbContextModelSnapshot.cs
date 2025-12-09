@@ -22,7 +22,7 @@ namespace ProjectHK3.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("ProjectHK3.Domain.Emtitys.AdminLogin", b =>
+            modelBuilder.Entity("ProjectHK3.Domain.Entities.AdminLogin", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -74,72 +74,6 @@ namespace ProjectHK3.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AdminLogin");
-                });
-
-            modelBuilder.Entity("ProjectHK3.Domain.Emtitys.EmpRegister", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CompanyId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTimeOffset>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetimeoffset")
-                        .HasDefaultValueSql("GETUTCDATE()");
-
-                    b.Property<string>("CreatedBy")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(max)")
-                        .HasDefaultValue("System");
-
-                    b.Property<string>("Department")
-                        .HasColumnType("VARCHAR(100)");
-
-                    b.Property<string>("EmailValue")
-                        .HasColumnType("VARCHAR(150)")
-                        .HasColumnName("Email");
-
-                    b.Property<string>("FullName")
-                        .HasColumnType("VARCHAR(150)");
-
-                    b.Property<DateOnly>("HireDate")
-                        .HasColumnType("DATE");
-
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("VARCHAR(255)");
-
-                    b.Property<string>("PhoneValue")
-                        .HasColumnType("VARCHAR(20)")
-                        .HasColumnName("Phone");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<DateTimeOffset>("UpdatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetimeoffset")
-                        .HasDefaultValueSql("GETUTCDATE()");
-
-                    b.Property<string>("UpdatedBy")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(max)")
-                        .HasDefaultValue("System");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CompanyId");
-
-                    b.ToTable("EmpRegister");
                 });
 
             modelBuilder.Entity("ProjectHK3.Domain.Entities.AuditTrail", b =>
@@ -322,6 +256,72 @@ namespace ProjectHK3.Infrastructure.Migrations
                     b.ToTable("CompanyDetails");
                 });
 
+            modelBuilder.Entity("ProjectHK3.Domain.Entities.EmpRegister", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetimeoffset")
+                        .HasDefaultValueSql("GETUTCDATE()");
+
+                    b.Property<string>("CreatedBy")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(max)")
+                        .HasDefaultValue("System");
+
+                    b.Property<string>("Department")
+                        .HasColumnType("VARCHAR(100)");
+
+                    b.Property<string>("EmailValue")
+                        .HasColumnType("VARCHAR(150)")
+                        .HasColumnName("Email");
+
+                    b.Property<string>("FullName")
+                        .HasColumnType("VARCHAR(150)");
+
+                    b.Property<DateOnly>("HireDate")
+                        .HasColumnType("DATE");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("VARCHAR(255)");
+
+                    b.Property<string>("PhoneValue")
+                        .HasColumnType("VARCHAR(20)")
+                        .HasColumnName("Phone");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetimeoffset")
+                        .HasDefaultValueSql("GETUTCDATE()");
+
+                    b.Property<string>("UpdatedBy")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(max)")
+                        .HasDefaultValue("System");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("EmpRegister");
+                });
+
             modelBuilder.Entity("ProjectHK3.Domain.Entities.HospitalInfo", b =>
                 {
                     b.Property<int>("Id")
@@ -444,7 +444,7 @@ namespace ProjectHK3.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AdminId")
+                    b.Property<int?>("AdminId")
                         .HasColumnType("int");
 
                     b.Property<DateTimeOffset>("CreatedAt")
@@ -457,7 +457,7 @@ namespace ProjectHK3.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasDefaultValue("System");
 
-                    b.Property<int>("EmpId")
+                    b.Property<int?>("EmpId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("ExpiresAt")
@@ -948,26 +948,15 @@ namespace ProjectHK3.Infrastructure.Migrations
                     b.ToTable("TransactionLedgers");
                 });
 
-            modelBuilder.Entity("ProjectHK3.Domain.Emtitys.EmpRegister", b =>
-                {
-                    b.HasOne("ProjectHK3.Domain.Entities.CompanyDetail", "Company")
-                        .WithMany()
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Company");
-                });
-
             modelBuilder.Entity("ProjectHK3.Domain.Entities.AuditTrail", b =>
                 {
-                    b.HasOne("ProjectHK3.Domain.Emtitys.AdminLogin", "Admin")
+                    b.HasOne("ProjectHK3.Domain.Entities.AdminLogin", "Admin")
                         .WithMany()
                         .HasForeignKey("AdminId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ProjectHK3.Domain.Emtitys.EmpRegister", "Employee")
+                    b.HasOne("ProjectHK3.Domain.Entities.EmpRegister", "Employee")
                         .WithMany()
                         .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -980,12 +969,12 @@ namespace ProjectHK3.Infrastructure.Migrations
 
             modelBuilder.Entity("ProjectHK3.Domain.Entities.AuthSession", b =>
                 {
-                    b.HasOne("ProjectHK3.Domain.Emtitys.AdminLogin", "Admin")
+                    b.HasOne("ProjectHK3.Domain.Entities.AdminLogin", "Admin")
                         .WithMany()
                         .HasForeignKey("AdminId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("ProjectHK3.Domain.Emtitys.EmpRegister", "Employee")
+                    b.HasOne("ProjectHK3.Domain.Entities.EmpRegister", "Employee")
                         .WithMany()
                         .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Restrict);
@@ -997,7 +986,7 @@ namespace ProjectHK3.Infrastructure.Migrations
 
             modelBuilder.Entity("ProjectHK3.Domain.Entities.CompanyDetail", b =>
                 {
-                    b.HasOne("ProjectHK3.Domain.Emtitys.AdminLogin", "Admin")
+                    b.HasOne("ProjectHK3.Domain.Entities.AdminLogin", "Admin")
                         .WithMany()
                         .HasForeignKey("CreateBy")
                         .OnDelete(DeleteBehavior.Restrict);
@@ -1005,19 +994,28 @@ namespace ProjectHK3.Infrastructure.Migrations
                     b.Navigation("Admin");
                 });
 
-            modelBuilder.Entity("ProjectHK3.Domain.Entities.PasswordResetToken", b =>
+            modelBuilder.Entity("ProjectHK3.Domain.Entities.EmpRegister", b =>
                 {
-                    b.HasOne("ProjectHK3.Domain.Emtitys.AdminLogin", "Admin")
+                    b.HasOne("ProjectHK3.Domain.Entities.CompanyDetail", "Company")
                         .WithMany()
-                        .HasForeignKey("AdminId")
+                        .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ProjectHK3.Domain.Emtitys.EmpRegister", "Employee")
+                    b.Navigation("Company");
+                });
+
+            modelBuilder.Entity("ProjectHK3.Domain.Entities.PasswordResetToken", b =>
+                {
+                    b.HasOne("ProjectHK3.Domain.Entities.AdminLogin", "Admin")
+                        .WithMany()
+                        .HasForeignKey("AdminId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ProjectHK3.Domain.Entities.EmpRegister", "Employee")
                         .WithMany()
                         .HasForeignKey("EmpId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Admin");
 
@@ -1026,7 +1024,7 @@ namespace ProjectHK3.Infrastructure.Migrations
 
             modelBuilder.Entity("ProjectHK3.Domain.Entities.PoliciesOnEmployee", b =>
                 {
-                    b.HasOne("ProjectHK3.Domain.Emtitys.EmpRegister", "Employee")
+                    b.HasOne("ProjectHK3.Domain.Entities.EmpRegister", "Employee")
                         .WithMany()
                         .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1056,7 +1054,7 @@ namespace ProjectHK3.Infrastructure.Migrations
 
             modelBuilder.Entity("ProjectHK3.Domain.Entities.PolicyApprovalDetail", b =>
                 {
-                    b.HasOne("ProjectHK3.Domain.Emtitys.AdminLogin", "Admin")
+                    b.HasOne("ProjectHK3.Domain.Entities.AdminLogin", "Admin")
                         .WithMany()
                         .HasForeignKey("AdminId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1075,7 +1073,7 @@ namespace ProjectHK3.Infrastructure.Migrations
 
             modelBuilder.Entity("ProjectHK3.Domain.Entities.PolicyRequestDetail", b =>
                 {
-                    b.HasOne("ProjectHK3.Domain.Emtitys.EmpRegister", "Employee")
+                    b.HasOne("ProjectHK3.Domain.Entities.EmpRegister", "Employee")
                         .WithMany()
                         .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1100,7 +1098,7 @@ namespace ProjectHK3.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ProjectHK3.Domain.Emtitys.EmpRegister", "Employee")
+                    b.HasOne("ProjectHK3.Domain.Entities.EmpRegister", "Employee")
                         .WithMany()
                         .HasForeignKey("UploadedBy")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1124,7 +1122,7 @@ namespace ProjectHK3.Infrastructure.Migrations
 
             modelBuilder.Entity("ProjectHK3.Domain.Entities.ReportLog", b =>
                 {
-                    b.HasOne("ProjectHK3.Domain.Emtitys.AdminLogin", "Admin")
+                    b.HasOne("ProjectHK3.Domain.Entities.AdminLogin", "Admin")
                         .WithMany()
                         .HasForeignKey("GeneratedBy")
                         .OnDelete(DeleteBehavior.Restrict)

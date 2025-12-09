@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using ProjectHK3.Api.Models.Auth;
 using ProjectHK3.Application.Abstractions.IServices;
 using ProjectHK3.Application.DTOs.Auth;
-using ProjectHK3.Api.Exceptions;
+using ProjectHK3.Application.Exceptions;
 
 namespace ProjectHK3.Api.Controllers
 {
